@@ -2,6 +2,38 @@
 #include "affichage.h"
 
 
+void initInterfaces(t_interface *interface1, t_interface *interface2)
+{
+	interface1 -> epaisseur = 5;
+	interface1 -> clr_grille = marron;
+	interface1 -> palette = {{gris,blanc,jaune, coral, orange, darkorange, crimson, rouge, firebrick, vert, bleu, blueviolet, azure},{noir, noir, noir, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}};
+
+	interface2 -> epaisseur = 2;
+	interface2 -> clr_grille = marron;
+	interface2 -> palette = {{gris,blanc,jaune, coral, orange, darkorange, crimson, rouge, firebrick, vert, bleu, blueviolet, azure},{noir, noir, noir, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}};
+		
+}
+
+
+
+
+void afficheAccueil()
+{
+}
+
+void afficheJeu()
+{
+	POINT P1, P2;
+	
+	
+	P1.x = 50 ; P1.y = 50 ;
+	P2.x = 850 ; P2.y = 850 ;
+	draw_fill_rectangle(P1, P2, gris);
+	
+	
+	afficheGrille();
+}
+
 void afficheGrille()
 {
 	POINT P1, P2;
@@ -24,4 +56,9 @@ void afficheGrille()
 	}
 	
 	affiche_all();	
+}
+
+
+void afficheTuile()
+{
 }
