@@ -1,4 +1,6 @@
-#include "affichage.h"
+
+
+#include "4096.h"
 
 
 
@@ -20,7 +22,7 @@ int main()
 	int score;
 	t_bouton clavier[8];
 	bouton choix;
-	bool start=False;
+	bool start=False, doitAider=False;
 	
 	t_interface interface1, interface2, choixInterface;
 	initInterfaces(&interface1, &interface2);
@@ -37,31 +39,31 @@ int main()
 	{
 		choix=attendreBouton();
 		
-		switch(choix)
+		switch(choix.nom)
 		{
-			case MODE_AFF_1:
+			case "MODE_AFF_1":
 				choixInterface=interface1;
 				break;
 				
-			case MODE_AFF_2:
+			case "MODE_AFF_2":
 				choixInterface=interface2;
 				break;
 				
-			case FACILE:
+			case "FACILE":
 				difficulte=0;
 				break;
 				
-			case DIFFICILE:
+			case "DIFFICILE":
 				difficulte=1;
 				break;
 				
-			case FU_CLASSIQUE:
+			case "FU_CLASSIQUE":
 				choixFusion=CLASSIQUE;
 			
-			case FU_TOTALE:
+			case "FU_TOTALE":
 				choixFusion=TOTALE;
 			
-			case START:
+			case "START":
 				start=True;
 				break;
 				

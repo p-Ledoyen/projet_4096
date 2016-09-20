@@ -1,5 +1,4 @@
 #include "4096.h"
-#include "affichage.h"
 
 
 void initInterfaces(t_interface *interface1, t_interface *interface2)

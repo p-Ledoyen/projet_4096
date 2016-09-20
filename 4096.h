@@ -1,3 +1,8 @@
+#include "graphics.h"
+#include "affichage.h"
+#include "calculs.h"
+#include "controle.h"
+
 #define L_FENETRE 1200
 #define H_FENETRE 900
 #define T_GRILLE 8
@@ -6,7 +11,7 @@
 typedef struct
 {
 	char* texte; //Texte à afficher sur le bouton
-	
+	char* nom;
 	COULEUR clr_fond;
 	COULEUR clr_texte;
 }t_bouton;
