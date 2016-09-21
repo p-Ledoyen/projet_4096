@@ -5,15 +5,6 @@
  */ 
 
 
-
-
-
-
 #include "4096.h"
 
 
-
-
-bouton attendreBouton();
-
-bool estFini();

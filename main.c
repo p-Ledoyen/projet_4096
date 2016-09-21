@@ -1,24 +1,39 @@
-
-
 #include "4096.h"
-
+#include "affichage.h"
+#include "calculs.h"
+#include "controle.h"
 
 
 int main()
 {
-	/*init_graphics(1200,900);
-	affiche_auto_off();
+
+	init_graphics(1200,900);
+	affiche_auto_off();	
 	
-	POINT P1, P2;
+	t_interface interfaceTest;
+	interfaceTest.epaisseur = 5;
+	interfaceTest.clr_grille = marron;
+	int i;//
+	//interfaceTest.palette[2][13]={{gris,blanc,jaune, coral, orange, darkorange, crimson, rouge, firebrick, vert, bleu, blueviolet, azure},{noir, noir, noir, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}};
+	for(i=0; i<2; i++)
+	{
+		
+		interfaceTest.palette[0][i]=rouge;
+		interfaceTest.palette[1][i]=blanc;
+		
+	}
+	
+	//COULEUR paletteTest[2][13]={{gris,blanc,jaune, coral, orange, darkorange, crimson, rouge, firebrick, vert, bleu, blueviolet, azure},{noir, noir, noir, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}};
+	
+	afficheJeu();
+	initPlateau(interfaceTest);
+	affichePlateau();
+	affiche_all();
+	
+	wait_escape();
 	
 	
-	P1.x = 50 ; P1.y = 50 ;
-	P2.x = 850 ; P2.y = 850 ;
-	draw_fill_rectangle(P1, P2, gris);
-	
-	
-	afficheGrille();*/
-	
+	/*
 	int score;
 	t_bouton clavier[8];
 	bouton choix;
@@ -122,7 +137,7 @@ int main()
 	}
 	
 	
+	*/
 	
-	
-	
+	return 0 ;
 }

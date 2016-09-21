@@ -1,6 +1,6 @@
-#include "4096.h"
+#include "affichage.h"
 
-
+/*
 void initInterfaces(t_interface *interface1, t_interface *interface2)
 {
 	interface1 -> epaisseur = 5;
@@ -19,6 +19,7 @@ void initInterfaces(t_interface *interface1, t_interface *interface2)
 void afficheAccueil()
 {
 }
+*/
 
 void afficheJeu()
 {
@@ -31,6 +32,7 @@ void afficheJeu()
 	
 	
 	afficheGrille();
+	return;
 }
 
 void afficheGrille()
@@ -55,9 +57,30 @@ void afficheGrille()
 	}
 	
 	affiche_all();	
+	return;
 }
 
 
-void afficheTuile()
+void affichePlateau()
 {
+	int i, j;
+	
+	for(i=0; i<T_GRILLE; i++)
+	{
+		for(j=0; j<T_GRILLE; j++)
+		{
+			t_tuile tmp=plateau[i][j];
+			
+			draw_fill_rectangle(tmp.pt_hg, tmp.pt_bd, tmp.clr_fond);
+			
+			if(tmp.exposant!=0)
+			{
+				POINT P;
+				P.x=tmp.pt_hg.x+30;
+				P.y=tmp.pt_hg.y-30;
+				aff_int(pow(2,tmp.exposant), 40, P, tmp.clr_texte); 
+			}	
+		}
+	}
+	return;
 }

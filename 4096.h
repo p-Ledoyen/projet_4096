@@ -1,7 +1,7 @@
+#ifndef H_4096
+#define H_4096
+
 #include "graphics.h"
-#include "affichage.h"
-#include "calculs.h"
-#include "controle.h"
 
 #define L_FENETRE 1200
 #define H_FENETRE 900
@@ -18,29 +18,39 @@ typedef struct
 
 typedef struct
 {
-	unsigned int valeur;
-	COULEUR 
-}t_case; //Type case
+	int exposant;
+	POINT pt_hg, pt_bd;
+	COULEUR clr_fond;
+	COULEUR clr_texte;
+	
+}t_tuile; //Type tuile
 
 typedef struct
 {
 	unsigned int epaisseur; //Epaisseur des traits de la grille
 	//police
 	COULEUR clr_grille;
-	COULEUR palette[13][2]; //Ensemble des couleurs correspondant aux tuiles et à leurs valeurs
+	COULEUR palette[2][13]; //Ensemble des couleurs correspondant aux tuiles et à leurs valeurs
 }t_interface; //Mode d'affichage du plateau de jeu
 
 
 typedef enum
 {
 	HAUT, BAS, GAUCHE, DROITE, AIDE, QUITTER, START, MODE_AFF_1, MODE_AFF_2, FACILE, DIFFICILE, FU_CLASSIQUE, FU_TOTALE
-}bouton
+}bouton;
 
 typedef enum
 {
 	CLASSIQUE, TOTALE
 }modeFusion;
 
-int plateau[T_GRILLE][T_GRILLE];
+t_tuile plateau[T_GRILLE][T_GRILLE];
 
 
+
+
+
+
+
+
+#endif
