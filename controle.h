@@ -5,15 +5,9 @@
  */ 
 
 
-
-#ifndef CONTROLE_H
-#define CONTROLE_H
-
 #include "4096.h"
 
 
+choixBouton attendreSelection(t_bouton* clavier);
 
 
-bouton attendreBouton();
-
-bool estFini();

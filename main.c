@@ -1,26 +1,87 @@
+
+
+#include "4096.h"
 #include "affichage.h"
+#include "calculs.h"
+#include "controle.h"
+
+
 
 
 
 int main()
 {
-	/*init_graphics(1200,900);
+	
+	init_graphics(1200,900);
 	affiche_auto_off();
 	
-	POINT P1, P2;
 	
 	
-	P1.x = 50 ; P1.y = 50 ;
-	P2.x = 850 ; P2.y = 850 ;
-	draw_fill_rectangle(P1, P2, gris);
+
+
+	t_bouton clavierTest[6];//
+	
+	initJeu(clavierTest);
+
+	afficheJeu();
+
+	initPlateau();
+
+	affichePlateau();
+	affiche_all();
+	
+	choixBouton boutonChoisi;
+	
+	do
+	{
+		boutonChoisi=attendreSelection(clavierTest);
+		
+		switch(boutonChoisi)
+		{
+			case HAUT:
+				pop2F();
+				printf("haut\n");
+				break;
+				
+			case BAS:
+				pop2F();
+				printf("bas\n");
+				break;
+				
+			case GAUCHE:
+				pop2F();
+				break;
+			
+			case DROITE:
+				pop2F();
+				break;
+				
+			case AIDE_ON:
+				
+				break;
+			
+			case AIDE_OFF:
+				
+				break;
+			
+			case QUITTER:
+				break;
+		}
+		affichePlateau();
+	}while(boutonChoisi!=QUITTER);
 	
 	
-	afficheGrille();*/
+
 	
+	
+	
+	
+	
+	/*
 	int score;
 	t_bouton clavier[8];
 	bouton choix;
-	bool start=False;
+	bool start=False, doitAider=False;
 	
 	t_interface interface1, interface2, choixInterface;
 	initInterfaces(&interface1, &interface2);
@@ -37,31 +98,31 @@ int main()
 	{
 		choix=attendreBouton();
 		
-		switch(choix)
+		switch(choix.nom)
 		{
-			case MODE_AFF_1:
+			case "MODE_AFF_1":
 				choixInterface=interface1;
 				break;
 				
-			case MODE_AFF_2:
+			case "MODE_AFF_2":
 				choixInterface=interface2;
 				break;
 				
-			case FACILE:
+			case "FACILE":
 				difficulte=0;
 				break;
 				
-			case DIFFICILE:
+			case "DIFFICILE":
 				difficulte=1;
 				break;
 				
-			case FU_CLASSIQUE:
+			case "FU_CLASSIQUE":
 				choixFusion=CLASSIQUE;
 			
-			case FU_TOTALE:
+			case "FU_TOTALE":
 				choixFusion=TOTALE;
 			
-			case START:
+			case "START":
 				start=True;
 				break;
 				
@@ -120,7 +181,7 @@ int main()
 	}
 	
 	
+	*/
 	
-	
-	
+	return 0 ;
 }

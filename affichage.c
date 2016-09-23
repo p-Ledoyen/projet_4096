@@ -1,7 +1,6 @@
-#include "4096.h"
 #include "affichage.h"
 
-
+/*
 void initInterfaces(t_interface *interface1, t_interface *interface2)
 {
 	interface1 -> epaisseur = 5;
@@ -20,45 +19,118 @@ void initInterfaces(t_interface *interface1, t_interface *interface2)
 void afficheAccueil()
 {
 }
+*/
 
-void afficheJeu()
+void afficheJeu(t_bouton* clavier)
 {
-	POINT P1, P2;
 	
+	fill_screen(beige);
+	
+	POINT P1, P2;
+	int i;
 	
 	P1.x = 50 ; P1.y = 50 ;
 	P2.x = 850 ; P2.y = 850 ;
-	draw_fill_rectangle(P1, P2, gris);
+	draw_fill_rectangle(P1, P2, 0x8D8068);
+	//afficheGrille();
 	
+	for(i=0 ; i<7; i++)
+	{
+		afficheBouton(clavier[i]);
+	}
 	
-	afficheGrille();
+	return;
 }
 
+/*
 void afficheGrille()
 {
 	POINT P1, P2;
 	
-	int i, pas=100, taille=8;
-	
-	P1.x = 50 ; P1.y = 50 ;
-	P2.x = 850 ; P2.y = 850 ;
-	draw_fill_rectangle(P1, P2, gris);
+	int i, pas=100, taille=8, epaisseur=4;
 	
 	for(i=50 ; i<=(taille+1)*pas ; i+=pas)
 	{
-		P1.x = i-5 ; P1.y = 50 ;
-		P2.x = i+5 ; P2.y = 850 ;
-		draw_fill_rectangle(P1, P2, beige);
+		P1.x = i-epaisseur; P1.y = 50 ;
+		P2.x = i+epaisseur ; P2.y = 850 ;
+		draw_fill_rectangle(P1, P2, 0xA29376);
 		
-		P1.x = 50 ; P1.y = i-5 ;
-		P2.x = 850 ; P2.y = i+5 ;
-		draw_fill_rectangle(P1, P2, beige);
+		P1.x = 50 ; P1.y = i-epaisseur ;
+		P2.x = 850 ; P2.y = i+epaisseur ;
+		draw_fill_rectangle(P1, P2, 0xA29376);
 	}
 	
 	affiche_all();	
+	return;
+}*/
+
+void afficheBouton(t_bouton bouton)
+{
+	draw_fill_rectangle(bouton.pt_hg, bouton.pt_bd, bouton.clr_fond);
+	POINT P;
+	P.x=bouton.pt_hg.x+30;
+	P.y=bouton.pt_hg.y-20;
+	aff_pol(bouton.texte, bouton.t_texte, P, bouton.clr_texte);
+	
+	return;
 }
 
 
-void afficheTuile()
+
+
+void affichePlateau()
 {
+	int i, j;
+	
+	for(i=0; i<T_GRILLE; i++)
+	{
+		for(j=0; j<T_GRILLE; j++)
+		{
+			
+			POINT pt1, pt2;
+			int rayon = 8;
+			
+			pt1.x=50+2*rayon+100*i     ; pt1.y=50-2*rayon+100*(j+1) ;
+			pt2.x=50-2*rayon+100*(i+1) ; pt2.y=50+2*rayon+100*j     ;
+		
+			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
+			
+			if(plateau[i][j]!=0)
+			{
+				POINT P;
+				P.x=pt1.x+30;
+				P.y=pt1.y-30;
+				aff_int(pow(2,plateau[i][j]), 40, P, palette[plateau[i][j]][1]); 
+			}	
+			
+			
+			
+			draw_fill_circle(pt1, rayon, palette[plateau[i][j]][0]);
+			draw_fill_circle(pt2, rayon, palette[plateau[i][j]][0]);
+			
+			pt2.y=50-rayon+100*(j+1);
+			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
+			
+			pt1.x=50-2*rayon+100*(i+1);
+			pt2.x=50-rayon+100*(i+1); pt2.y=50+2*rayon+100*j;
+			
+			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
+			draw_fill_circle(pt1, rayon, palette[plateau[i][j]][0]);
+			
+			pt2.x=50+2*rayon+100*i;
+			pt1.y=50+rayon+100*j;
+			
+			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
+			draw_fill_circle(pt2, rayon, palette[plateau[i][j]][0]);
+			
+			pt1.x=50+rayon+100*i     ; pt1.y=50-2*rayon+100*(j+1) ;
+			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
+				
+			
+			
+			
+		}
+	}
+	//afficheGrille();
+	return;
 }
