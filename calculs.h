@@ -10,12 +10,20 @@
 
 void initPlateau();
 
-void majScore(int *score, int ptsGagnes);
+void ajouterTuile(int puiss, int i, int j);
 
-int versHaut();
+void initJeu(t_bouton* clavier);
 
-int versDroite();
+void pop2F();
 
 int versBas();
 
+int versHaut();
+
+
+int versDroite();
+
 int versGauche();
+
+//void majScore(int *score, int ptsGagnes);
+

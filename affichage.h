@@ -4,16 +4,19 @@
  * 
  */ 
 
+#include "4096.h"
 
-#include "graphics.h"
 
 
-void initInterfaces(t_interface *interface1, t_interface *interface2);
+//void initInterfaces(t_interface *interface1, t_interface *interface2);
 
 void afficheAccueil();
 
 void afficheJeu();
 
+void affichePlateau();
+
 void afficheGrille();
 
-void afficheTuile();
+void afficheBouton(t_bouton bouton);
+
