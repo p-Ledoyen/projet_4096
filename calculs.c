@@ -10,17 +10,12 @@ void initPlateau()
 	{
 		for(j=0; j<T_GRILLE; j++)
 		{
-			ajouterTuile(0, i, j);
+			plateau[i][j]=alea_int(9);
 		}
 	}
 	return;
 }
 
-void ajouterTuile(int puiss, int i, int j)
-{
-	plateau[i][j]=puiss;
-	return;
-}
 	
 	
 void initJeu(t_bouton* clavier)
@@ -137,11 +132,11 @@ int pop2F(int *nombreZeros)
 	return 0;
 }
 
-//////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 // FONCTIONS DE DEPLACEMENT EN MODE FUSION CLASSIQUE //
 
-int versBas(int *nombreZeros)
+int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -174,8 +169,12 @@ int versBas(int *nombreZeros)
 				
 				if(plateau[iColonne][iLigne]==plateau[iColonne][iSelec] && iLigne<T_GRILLE) //si les deux tuiles sont de même valeur
 				{
-					plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
-					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					if(doitJouer)
+					{
+						plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
+						plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					}
+					(*score)+=pow(2, plateau[iColonne][iSelec]+1);
 					(*nombreZeros)++;
 					iSelec=iLigne+1;
 					iLigne=iSelec+1;
@@ -200,29 +199,30 @@ int versBas(int *nombreZeros)
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
-		
-		for(iLigne=0; iLigne<T_GRILLE; iLigne++)
+		if(doitJouer)
 		{
-			if(plateau[iColonne][iLigne]!=0)
+			for(iLigne=0; iLigne<T_GRILLE; iLigne++)
 			{
-				plateau[iColonne][iPlace]=plateau[iColonne][iLigne];
+				if(plateau[iColonne][iLigne]!=0)
+				{
+					plateau[iColonne][iPlace]=plateau[iColonne][iLigne];
+					iPlace++;
+				}
+			}
+			
+			while(iPlace<T_GRILLE)
+			{
+				plateau[iColonne][iPlace]=0;
 				iPlace++;
 			}
 		}
-		
-		while(iPlace<T_GRILLE)
-		{
-			plateau[iColonne][iPlace]=0;
-			iPlace++;
-		}
-	
 	}
 	
 	return 0;		
 }
 
 
-int versHaut(int *nombreZeros)
+int versHaut(int *nombreZeros, int *score, BOOL doitJouer)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -255,9 +255,13 @@ int versHaut(int *nombreZeros)
 				
 				if(plateau[iColonne][iLigne]==plateau[iColonne][iSelec] && iLigne>=0) //si les deux tuiles sont de même valeur
 				{
-					plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
-					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					if(doitJouer)
+					{
+						plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
+						plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					}
 					(*nombreZeros)++;
+					(*score)+=pow(2, plateau[iColonne][iSelec]+1);
 					iSelec=iLigne-1;
 					iLigne=iSelec-1;
 				}
@@ -280,29 +284,30 @@ int versHaut(int *nombreZeros)
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
-		
-		for(iLigne=T_GRILLE-1; iLigne>=0; iLigne--)
+		if(doitJouer)
 		{
-			if(plateau[iColonne][iLigne]!=0)
+			for(iLigne=T_GRILLE-1; iLigne>=0; iLigne--)
 			{
-				plateau[iColonne][iPlace]=plateau[iColonne][iLigne];
+				if(plateau[iColonne][iLigne]!=0)
+				{
+					plateau[iColonne][iPlace]=plateau[iColonne][iLigne];
+					iPlace--;
+				}
+			}
+			
+			while(iPlace>=0)
+			{
+				plateau[iColonne][iPlace]=0;
 				iPlace--;
 			}
 		}
-		
-		while(iPlace>=0)
-		{
-			plateau[iColonne][iPlace]=0;
-			iPlace--;
-		}
-	
 	}
 	
 	return 0;	
 }
 
 
-int versGauche(int *nombreZeros)
+int versGauche(int *nombreZeros, int *score, BOOL doitJouer)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -335,9 +340,13 @@ int versGauche(int *nombreZeros)
 				
 				if(plateau[iColonne][iLigne]==plateau[iSelec][iLigne] && iColonne<T_GRILLE) //si les deux tuiles sont de même valeur
 				{
-					plateau[iSelec][iLigne]++;		//on double la valeur de la tuile de réf
-					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					if(doitJouer)
+					{
+						plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
+						plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					}
 					(*nombreZeros)++;
+					(*score)+=pow(2, plateau[iSelec][iLigne]+1);
 					iSelec=iColonne+1;
 					iColonne=iSelec+1;
 				}
@@ -360,20 +369,22 @@ int versGauche(int *nombreZeros)
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
-		
-		for(iColonne=0; iColonne<T_GRILLE; iColonne++)
+		if(doitJouer)
 		{
-			if(plateau[iColonne][iLigne]!=0)
+			for(iColonne=0; iColonne<T_GRILLE; iColonne++)
 			{
-				plateau[iPlace][iLigne]=plateau[iColonne][iLigne];
+				if(plateau[iColonne][iLigne]!=0)
+				{
+					plateau[iPlace][iLigne]=plateau[iColonne][iLigne];
+					iPlace++;
+				}
+			}
+			
+			while(iPlace<T_GRILLE)
+			{
+				plateau[iPlace][iLigne]=0;
 				iPlace++;
 			}
-		}
-		
-		while(iPlace<T_GRILLE)
-		{
-			plateau[iPlace][iLigne]=0;
-			iPlace++;
 		}
 	
 	}
@@ -382,7 +393,7 @@ int versGauche(int *nombreZeros)
 }
 
 
-int versDroite(int *nombreZeros)
+int versDroite(int *nombreZeros, int *score, BOOL doitJouer)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -415,9 +426,13 @@ int versDroite(int *nombreZeros)
 				
 				if(plateau[iColonne][iLigne]==plateau[iSelec][iLigne] && iColonne>=0) //si les deux tuiles sont de même valeur
 				{
-					plateau[iSelec][iLigne]++;		//on double la valeur de la tuile de réf
-					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					if(doitJouer)
+					{
+						plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
+						plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					}
 					(*nombreZeros)++;
+					(*score)+=pow(2, plateau[iSelec][iLigne]+1);
 					iSelec=iColonne-1;
 					iColonne=iSelec-1;
 				}
@@ -440,25 +455,65 @@ int versDroite(int *nombreZeros)
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
-		
-		for(iColonne=T_GRILLE-1; iColonne>=0; iColonne--)
+		if(doitJouer)
 		{
-			if(plateau[iColonne][iLigne]!=0)
+			for(iColonne=T_GRILLE-1; iColonne>=0; iColonne--)
 			{
-				plateau[iPlace][iLigne]=plateau[iColonne][iLigne];
+				if(plateau[iColonne][iLigne]!=0)
+				{
+					plateau[iPlace][iLigne]=plateau[iColonne][iLigne];
+					iPlace--;
+				}
+			}
+			
+			while(iPlace>=0)
+			{
+				plateau[iPlace][iLigne]=0;
 				iPlace--;
 			}
 		}
-		
-		while(iPlace>=0)
-		{
-			plateau[iPlace][iLigne]=0;
-			iPlace--;
-		}
-	
 	}
 	
 	return 0;		
 }
 
 ///////////////////////////////////////////////////////
+
+
+
+choixBouton meilleurCoup()
+{
+	int score=0, max=0, joker=0; //joker sert à mettre quelquechose en paramètre à la place de nbZeros
+	choixBouton meilleur;
+	
+	versHaut(&joker, &score, False);
+	max=score;
+	meilleur=HAUT;
+	score=0;
+	
+	versBas(&joker, &score, False);
+	if(score>max)
+	{
+		max=score;
+		meilleur=BAS;
+	}
+	score=0;
+	
+	versGauche(&joker, &score, False);
+	if(score>max)
+	{
+		max=score;
+		meilleur=GAUCHE;
+	}
+	score=0;
+	
+	versDroite(&joker, &score, False);
+	if(score>max)
+	{
+		max=score;
+		meilleur=DROITE;
+	}
+	
+	
+	return meilleur;
+}

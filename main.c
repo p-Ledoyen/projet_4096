@@ -4,7 +4,7 @@
 #include "controle.h"
 
 
-//compilations : ....:....:....:....:....:....:....:....:...
+//compilations : ....:....:....:....:....:....:....:....:....:....:....:....:....:....:....:....:....:....:....:.
 
 
 int main()
@@ -14,56 +14,101 @@ int main()
 	affiche_auto_off();
 	
 	int nbZeros=T_GRILLE*T_GRILLE;
-
-	afficheJeu();
+	int score=0;
+	BOOL aideActivee=0;
 	
 	initPlateau();
-
-	affichePlateau();
-
 	
-	choixBouton boutonChoisi;
+	afficheJeu();
+	afficheScore(&score);
+	affichePlateau();
+	
+	
+	choixBouton boutonChoisi, boutonPropose;
 	
 	do
 	{
-		printf("%d\n",nbZeros);
+		
+		if(aideActivee)
+		{
+			score--;
+			boutonPropose=meilleurCoup();
+			
+			switch(boutonPropose)
+			{
+				case HAUT:
+					afficheBoutonHaut(True);
+					break;
+					
+				case BAS:
+					afficheBoutonBas(True);
+					break;
+				
+				case GAUCHE:
+					afficheBoutonGauche(True);
+					break;
+					
+				case DROITE:
+					afficheBoutonDroite(True);
+					break;
+			}
+			affiche_all();
+		}
+			
+		
 		
 		boutonChoisi=attendreSelection();
 		
 		switch(boutonChoisi)
 		{
 			case HAUT:
-				versHaut(&nbZeros);
+				versHaut(&nbZeros, &score, True);
 				pop2F(&nbZeros);
 				affichePlateau();
 				break;
 				
 			case BAS:
-				versBas(&nbZeros);
+				versBas(&nbZeros, &score, True);
 				pop2F(&nbZeros);
 				break;
 				
 			case GAUCHE:
-				versGauche(&nbZeros);
+				versGauche(&nbZeros, &score, True);
 				pop2F(&nbZeros);
 				break;
 			
 			case DROITE:
-				versDroite(&nbZeros);
+				versDroite(&nbZeros, &score, True);
 				pop2F(&nbZeros);
 				break;
 				
 			case AIDE:
-				
+				aideActivee=!aideActivee;
+				afficheBoutonAide(aideActivee);
+				afficheBoutonHaut(False);
+				afficheBoutonBas(False);
+				afficheBoutonGauche(False);
+				afficheBoutonDroite(False);
 				break;
 			
 			
 			case QUITTER:
 				break;
 		}
-	
-
+		printf("aide %d\n", aideActivee);
+		afficheScore(&score);
 		affichePlateau();
+		
+		if(aideActivee)
+		{
+			afficheBoutonAide(aideActivee);
+			afficheBoutonHaut(False);
+			afficheBoutonBas(False);
+			afficheBoutonGauche(False);
+			afficheBoutonDroite(False);
+		}
+		
+		
 	}while(boutonChoisi!=QUITTER && nbZeros>0);
 	
 	

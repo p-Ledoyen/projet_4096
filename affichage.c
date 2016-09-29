@@ -35,24 +35,31 @@ void afficheJeu()
 {
 	fill_screen(beige);
 	
-	POINT P1, P2;
+	POINT P1, P2,
+		  Pscore={L_FENETRE-320, H_FENETRE-500},
+		  Paide ={L_FENETRE-295, H_FENETRE-570};
 
 	
 	P1.x = 50 ; P1.y = 50 ;
 	P2.x = 50+100*T_GRILLE ; P2.y = 50+100*T_GRILLE ;
 	draw_fill_rectangle(P1, P2, 0x8D8068);
 	
-	afficheBoutonHaut();
-	afficheBoutonBas();
-	afficheBoutonDroite();
-	afficheBoutonGauche();
-	afficheBoutonAideOn();
+	afficheBoutonHaut(False);
+	afficheBoutonBas(False);
+	afficheBoutonDroite(False);
+	afficheBoutonGauche(False);
+	afficheBoutonAideOff();
+	
+	
+	aff_pol("Score :", 40, Pscore, darkgray);
+	aff_pol("Aide :", 40, Paide, darkgray);
+	
 	
 	return;
 }
 
 
-void afficheBoutonHaut()
+void afficheBoutonHaut(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -66,12 +73,19 @@ void afficheBoutonHaut()
 	P2.x=P.x-20; P2.y=P.y-15;
 	P3.x=P.x+20; P3.y=P.y-15;
 	
-	draw_fill_triangle(P1, P2, P3, blanc);
+	if(a)
+	{
+		draw_fill_triangle(P1, P2, P3, jaune);
+	}
+	else
+	{
+		draw_fill_triangle(P1, P2, P3, blanc);
+	}
 	
 	return;
 }
 
-void afficheBoutonBas()
+void afficheBoutonBas(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -85,13 +99,21 @@ void afficheBoutonBas()
 	P2.x=P.x-20; P2.y=P.y+15;
 	P3.x=P.x+20; P3.y=P.y+15;
 	
-	draw_fill_triangle(P1, P2, P3, blanc);
+	if(a)
+	{
+		draw_fill_triangle(P1, P2, P3, jaune);
+	}
+	else
+	{
+		draw_fill_triangle(P1, P2, P3, blanc);
+	}
+	
 	
 	return;
 }
 
 
-void afficheBoutonDroite()
+void afficheBoutonDroite(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -105,12 +127,20 @@ void afficheBoutonDroite()
 	P2.x=P.x-15; P2.y=P.y+20;
 	P3.x=P.x-15; P3.y=P.y-20;
 	
-	draw_fill_triangle(P1, P2, P3, blanc);
+	if(a)
+	{
+		draw_fill_triangle(P1, P2, P3, jaune);
+	}
+	else
+	{
+		draw_fill_triangle(P1, P2, P3, blanc);
+	}
+	
 	
 	return;
 }
 
-void afficheBoutonGauche()
+void afficheBoutonGauche(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -124,11 +154,30 @@ void afficheBoutonGauche()
 	P2.x=P.x+15; P2.y=P.y+20;
 	P3.x=P.x+15; P3.y=P.y-20;
 	
-	draw_fill_triangle(P1, P2, P3, blanc);
+	if(a)
+	{
+		draw_fill_triangle(P1, P2, P3, jaune);
+	}
+	else
+	{
+		draw_fill_triangle(P1, P2, P3, blanc);
+	}
 	
 	return;
 }
 
+
+void afficheBoutonAide(BOOL a)
+{
+	if(a)
+	{
+		afficheBoutonAideOn();
+	}
+	else
+	{
+		afficheBoutonAideOff();
+	}
+}
 
 void afficheBoutonAideOff()
 {
@@ -136,8 +185,8 @@ void afficheBoutonAideOff()
 	
 	POINT P1, P2;
 	
-	P1.x=L_FENETRE-200; P1.y=H_FENETRE-585;
-	P2.x=L_FENETRE-160; P2.y=H_FENETRE-615;
+	P1.x=L_FENETRE-120; P1.y=H_FENETRE-585;
+	P2.x=L_FENETRE-80; P2.y=H_FENETRE-615;
 	draw_fill_rectangle(P1, P2, gris);
 	
 	P1.y=P1.y-15;
@@ -155,8 +204,8 @@ void afficheBoutonAideOn()
 	
 	POINT P1, P2;
 	
-	P1.x=L_FENETRE-200; P1.y=H_FENETRE-585;
-	P2.x=L_FENETRE-160; P2.y=H_FENETRE-615;
+	P1.x=L_FENETRE-120; P1.y=H_FENETRE-585;
+	P2.x=L_FENETRE-80; P2.y=H_FENETRE-615;
 	draw_fill_rectangle(P1, P2, gris);
 	
 	P1.y=P1.y-15;
@@ -171,8 +220,8 @@ void afficheBoutonAideOn()
 void effacerBoutonAide()
 {
 	POINT P1, P2;
-	P1.x=L_FENETRE-200-18; P1.y=H_FENETRE-585+3;
-	P2.x=L_FENETRE-160+18; P2.y=H_FENETRE-615-3;
+	P1.x=L_FENETRE-120-18; P1.y=H_FENETRE-585+3;
+	P2.x=L_FENETRE-80+18; P2.y=H_FENETRE-615-3;
 	draw_fill_rectangle(P1,P2, beige);
 
 }
@@ -271,4 +320,18 @@ void affichePlateau()
 	}
 	affiche_all();
 	return;
+}
+
+
+void afficheScore(int *score)
+{
+	
+	POINT P1={L_FENETRE-170, H_FENETRE-501},
+		  P2={L_FENETRE, H_FENETRE-551};
+		  
+	draw_fill_rectangle(P1, P2, beige);
+	
+	aff_int(*score, 40, P1, darkgray);
+	
+	
 }

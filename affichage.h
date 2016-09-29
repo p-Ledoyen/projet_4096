@@ -14,17 +14,21 @@ void afficheAccueil();
 
 void afficheJeu();
 
-void afficheBoutonHaut();
-void afficheBoutonBas();
-void afficheBoutonDroite();
-void afficheBoutonGauche();
+void afficheBoutonHaut(BOOL a);
+void afficheBoutonBas(BOOL a);
+void afficheBoutonDroite(BOOL a);
+void afficheBoutonGauche(BOOL a);
+
+
+void afficheBoutonAide(BOOL a);
 void afficheBoutonAideOn();
 void afficheBoutonAideOff();
 void effacerBoutonAide();
 
 void affichePlateau();
+void afficheScore(int *score);
 
-void afficheGrille();
+//void afficheGrille();
 
-void afficheBouton(t_bouton bouton);
+//void afficheBouton(t_bouton bouton);
 
