@@ -14,6 +14,14 @@ void afficheAccueil();
 
 void afficheJeu();
 
+void afficheBoutonHaut();
+void afficheBoutonBas();
+void afficheBoutonDroite();
+void afficheBoutonGauche();
+void afficheBoutonAideOn();
+void afficheBoutonAideOff();
+void effacerBoutonAide();
+
 void affichePlateau();
 
 void afficheGrille();

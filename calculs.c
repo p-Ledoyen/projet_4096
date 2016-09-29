@@ -60,7 +60,7 @@ void initJeu(t_bouton* clavier)
 	bt_droite.t_texte=50;
 	
 	bt_aideOn.texte="On";
-	bt_aideOn.nom=AIDE_ON;
+	bt_aideOn.nom=AIDE;
 	bt_aideOn.pt_hg.x= 1025-64; bt_aideOn.pt_hg.y=300;
 	bt_aideOn.pt_bd.x= 1025; bt_aideOn.pt_bd.y= 300-64;
 	bt_aideOn.clr_fond=gris;
@@ -68,7 +68,7 @@ void initJeu(t_bouton* clavier)
 	bt_aideOn.t_texte=15;
 	
 	bt_aideOff.texte="Off";
-	bt_aideOff.nom=AIDE_OFF;
+	bt_aideOff.nom=AIDE;
 	bt_aideOff.pt_hg.x= 1025; bt_aideOff.pt_hg.y= 300;
 	bt_aideOff.pt_bd.x= 1025+64; bt_aideOff.pt_bd.y= 300-64;
 	bt_aideOff.clr_fond=gris;
@@ -95,8 +95,33 @@ void initJeu(t_bouton* clavier)
 	
 }
 
+// FONCTION D'AJOUT DE TUILE EN MODE FACILE //
+void generer_2_facile(int* nbZeros)
+//En mode facile, on génère un 2 sur une case libre aléatoire sans risque de boulcer indéfiniment
+{
+        unsigned int i = 0, j = 0, k = 0, occurrence = alea_int(*nbZeros)/* Indice de la case nulle à modifier */;
 
-void pop2F()
+        while(k != occurrence && k < T_GRILLE * T_GRILLE) //Tant qu'il reste des cases à parcourir
+        {
+                if(k == occurrence) //Si on a atteint l'indice de la case à modifier
+                {
+                        plateau[i][j] = 1; //On y insère un 2
+                        (*nbZeros)--; //La nombre de cases vides diminue de 1
+                }
+                else //Autrement, 
+                {
+                        k++;
+                }
+                i++;
+                i %= 8; //On ne doit pas sortir du plateau
+                j++;
+                j %= 8;
+        }
+
+        return;
+}
+
+int pop2F(int *nombreZeros)
 {
 	int i,j;
 	
@@ -106,98 +131,17 @@ void pop2F()
 		j=alea_int(T_GRILLE);
 	}while(plateau[i][j]!=0);
 	
-	ajouterTuile(1, i, j);
-}
-
-
-/*int versBas()
-{
-	int iColonne, iLigne, iPlace, iSelec;
-	
-	for (iColonne=0; iColonne<T_GRILLE; iColonne++)
-	{
-		
-		iSelec=0;
-		iLigne=1;
-		iPlace=0;
-		
-		while(iLigne<T_GRILLE && iSelec<T_GRILLE)
-		{
-			if(plateau[iColonne][iSelec]==0)
-			{
-				iSelec++;
-				iLigne=iSelec+1;
-			}
-			else
-			{
-				iLigne=iSelec+1;
-				while(plateau[iColonne][iLigne]==0)
-				{
-					iLigne++;
-				}
-				
-				if(plateau[iColonne][iSelec]==plateau[iColonne][iLigne])
-				{
-					plateau[iColonne][iPlace]=plateau[iColonne][iSelec]+1;
-					iPlace++;
-				}
-				
-				else
-				{
-					plateau[iColonne][iPlace]=plateau[iColonne][iSelec];
-					plateau[iColonne][iPlace+1]=plateau[iColonne][iLigne];
-					iPlace+=2;
-				}
-				
-				iSelec=iLigne+1;
-				iLigne=iSelec+1;
-			}
-		}
-		
-		while(iSelec<T_GRILLE)
-		{
-			plateau[iColonne][iPlace]=plateau[iColonne][iSelec];
-			iPlace++;
-			iSelec++;
-		}
-		
-		while(iPlace<T_GRILLE)
-		{
-			plateau[iColonne][iPlace]=0;
-			iPlace++;
-		}
-		
-		
-	}
+	plateau[i][j]=1;
+	(*nombreZeros)--;
 	
 	return 0;
 }
-int versBas()
-{
-	int iColonne, iLigne, iPlace, iSelec;
-	
-	for (iColonne=0; iColonne<T_GRILLE; iColonne++)
-	{
-		iSelec=0;
-		iLigne=1;
-		iPlace=0;
-		
-		while(iSelec<T_GRILLE-1)
-		{
-				while(iSelec<T_GRILLE-1 && plateau[iColonne][iSelec]==0)
-				{
-					iSelec++;
-				}
-				
-		}
-		
-			
-	}
-	
-	return 0;	
-}*/
 
-int versBas()
+//////////////////////////////////////////////
+
+// FONCTIONS DE DEPLACEMENT EN MODE FUSION CLASSIQUE //
+
+int versBas(int *nombreZeros)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -232,8 +176,10 @@ int versBas()
 				{
 					plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
 					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					(*nombreZeros)++;
 					iSelec=iLigne+1;
 					iLigne=iSelec+1;
+					
 				}
 				else
 				{
@@ -276,8 +222,7 @@ int versBas()
 }
 
 
-
-int versHaut()
+int versHaut(int *nombreZeros)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -312,6 +257,7 @@ int versHaut()
 				{
 					plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
 					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					(*nombreZeros)++;
 					iSelec=iLigne-1;
 					iLigne=iSelec-1;
 				}
@@ -352,12 +298,11 @@ int versHaut()
 	
 	}
 	
-	return 0;		
+	return 0;	
 }
 
 
-
-int versGauche()
+int versGauche(int *nombreZeros)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -392,6 +337,7 @@ int versGauche()
 				{
 					plateau[iSelec][iLigne]++;		//on double la valeur de la tuile de réf
 					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					(*nombreZeros)++;
 					iSelec=iColonne+1;
 					iColonne=iSelec+1;
 				}
@@ -432,11 +378,11 @@ int versGauche()
 	
 	}
 	
-	return 0;		
+	return 0;	
 }
 
 
-int versDroite()
+int versDroite(int *nombreZeros)
 {
 	/*
 	 *   TO DO : retourner le score
@@ -471,6 +417,7 @@ int versDroite()
 				{
 					plateau[iSelec][iLigne]++;		//on double la valeur de la tuile de réf
 					plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
+					(*nombreZeros)++;
 					iSelec=iColonne-1;
 					iColonne=iSelec-1;
 				}
@@ -513,3 +460,5 @@ int versDroite()
 	
 	return 0;		
 }
+
+///////////////////////////////////////////////////////

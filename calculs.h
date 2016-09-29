@@ -14,16 +14,16 @@ void ajouterTuile(int puiss, int i, int j);
 
 void initJeu(t_bouton* clavier);
 
-void pop2F();
+int pop2F(int *nombreZeros);
 
-int versBas();
+int versBas(int *nombreZeros);
 
-int versHaut();
+int versHaut(int *nombreZeros);
 
 
-int versDroite();
+int versDroite(int *nombreZeros);
 
-int versGauche();
+int versGauche(int *nombreZeros);
 
 //void majScore(int *score, int ptsGagnes);
 

@@ -19,7 +19,7 @@
 // 6. LECTURE D'ENTIER .................. ligne 862
 // 7. GESTION DU TEMPS .................. ligne 879
 // 8. VALEUR ALEATOIRES ................. ligne 939
-// 9. DIVERS ............................ ligne 957
+// 9. DIVERS ............................ ligne 957init_graphics
 // ################################################
 
 
@@ -97,7 +97,7 @@ void init_graphics(int W, int H)
 	SDL_EnableKeyRepeat(1,0);
 	
 	// Le titre de la fenêtre
-	SDL_WM_SetCaption("UVSQ -- SDL -- Franck.Quessette@uvsq.fr",NULL);
+	SDL_WM_SetCaption("4096",NULL);
 	
 	__init_graphics_is_already_called = 25;
 	printf("Fenetre de %d x %d\n",WIDTH,HEIGHT);
