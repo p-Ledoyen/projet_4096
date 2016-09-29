@@ -1,5 +1,7 @@
 #include "affichage.h"
 
+static COULEUR palette[2][13]={{0xC7B591,0xE2DDD3,0xC4B087, 0xFF8C61, 0xDE6D4D, 0xD94A3B, 0xDA2C14, 0xD7B95B, 0xDFB83F, 0xEEBD25, 0xFBC51E, 0xFFB300, noir},{0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}};
+
 /*
 void initInterfaces(t_interface *interface1, t_interface *interface2)
 {
@@ -93,39 +95,53 @@ void affichePlateau()
 			pt1.x=50+2*rayon+100*i     ; pt1.y=50-2*rayon+100*(j+1) ;
 			pt2.x=50-2*rayon+100*(i+1) ; pt2.y=50+2*rayon+100*j     ;
 		
-			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
-			
-			if(plateau[i][j]!=0)
-			{
-				POINT P;
-				P.x=pt1.x+30;
-				P.y=pt1.y-30;
-				aff_int(pow(2,plateau[i][j]), 40, P, palette[plateau[i][j]][1]); 
-			}	
-			
-			
-			
-			draw_fill_circle(pt1, rayon, palette[plateau[i][j]][0]);
-			draw_fill_circle(pt2, rayon, palette[plateau[i][j]][0]);
+			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);			
+			draw_fill_circle(pt1, rayon, palette[0][plateau[i][j]]);
+			draw_fill_circle(pt2, rayon, palette[0][plateau[i][j]]);
 			
 			pt2.y=50-rayon+100*(j+1);
-			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
+			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
 			
 			pt1.x=50-2*rayon+100*(i+1);
 			pt2.x=50-rayon+100*(i+1); pt2.y=50+2*rayon+100*j;
 			
-			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
-			draw_fill_circle(pt1, rayon, palette[plateau[i][j]][0]);
+			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
+			draw_fill_circle(pt1, rayon, palette[0][plateau[i][j]]);
 			
 			pt2.x=50+2*rayon+100*i;
 			pt1.y=50+rayon+100*j;
 			
-			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
-			draw_fill_circle(pt2, rayon, palette[plateau[i][j]][0]);
+			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
+			draw_fill_circle(pt2, rayon, palette[0][plateau[i][j]]);
 			
 			pt1.x=50+rayon+100*i     ; pt1.y=50-2*rayon+100*(j+1) ;
-			draw_fill_rectangle(pt1, pt2, palette[plateau[i][j]][0]);
+			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
+
+			
+			
+			if(plateau[i][j]!=0)
+			{
+				pt1.y=100*(j+1)+20;
 				
+				if(plateau[i][j]<4)
+				{
+					pt1.x=50+2*rayon+100*i+24;
+				}
+				else if(plateau[i][j]<7)
+				{
+					pt1.x=50+2*rayon+100*i+15;
+				}
+				else if(plateau[i][j]<10)
+				{
+					pt1.x=50+2*rayon+100*i+7;
+				}
+				else
+				{
+					pt1.x=50+2*rayon+100*i;
+				}
+				
+				aff_int(pow(2,plateau[i][j]), 28, pt1, palette[1][plateau[i][j]]); 
+			}	
 			
 			
 			

@@ -5,10 +5,6 @@
 #include "calculs.h"
 #include "controle.h"
 
-
-
-
-
 int main()
 {
 	

@@ -10,7 +10,7 @@ void initPlateau()
 	{
 		for(j=0; j<T_GRILLE; j++)
 		{
-			ajouterTuile(0, i, j);
+			ajouterTuile(alea_int(12), i, j);
 		}
 	}
 	return;
