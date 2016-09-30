@@ -4,7 +4,8 @@
 #include "controle.h"
 
 
-//compilations : ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:....:....:....:....||....:....:....:....:....:....:...
+//compilations : ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:....:....:....:....|
+//               ....:....:....:....:....:....:....:....:....:....|....:....:...
 
 
 int main()
@@ -15,14 +16,25 @@ int main()
 	
 	int nbZeros=T_GRILLE*T_GRILLE;
 	int score=0;
-	BOOL aideActivee=False;
+	BOOL aideActivee=False, start=False;
 	choixBouton boutonChoisi, boutonPropose;
 	modeDifficulte difficulte = FACILE;
-	initPlateau(&nbZeros);
+	modeAffichage affichage = AFF0;
+	modeFusion fusion = CLASSIQUE;
 	
+	afficheAccueil(difficulte, affichage, fusion);
+	do
+	{	
+		boutonChoisi=attendreParametres();
+		if(boutonChoisi==START) start=TRUE;
+		else changerParametres(boutonChoisi, &difficulte, &affichage, &fusion);
+		afficheAccueil(difficulte, affichage, fusion);
+	}while(!start);
+	
+	initPlateau(&nbZeros);
 	afficheJeu();
 	afficheScore(score);
-	affichePlateau();
+	affichePlateau(affichage);
 
 	do
 	{
@@ -41,7 +53,7 @@ int main()
 			}
 			affiche_all();
 		}
-		boutonChoisi=attendreSelection();
+		boutonChoisi=attendreSelection(); //fonction bloquante attendant un clic sur un bouton
 		switch(boutonChoisi)
 		{
 			case HAUT:
@@ -73,7 +85,7 @@ int main()
 				break;
 		}
 		afficheScore(score);
-		affichePlateau();
+		affichePlateau(affichage);
 		afficheBoutonHaut(False);
 		afficheBoutonBas(False);
 		afficheBoutonGauche(False);

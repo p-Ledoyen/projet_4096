@@ -10,7 +10,7 @@ void initPlateau(int *nombreZeros)
 	{
 		for(j=0; j<T_GRILLE; j++)
 		{
-			plateau[i][j]=0;
+			plateau[i][j]=alea_int(13);
 		}
 	}
 	generer_2(FACILE, nombreZeros);

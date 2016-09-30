@@ -1,7 +1,14 @@
 #include "affichage.h"
 
-static COULEUR palette[2][13]={{0xC7B591,0xE2DDD3,0xC4B087, 0xFF8C61, 0xDE6D4D, 0xD94A3B, 0xDA2C14, 0xD7B95B, 0xDFB83F, 0xEEBD25, 0xFBC51E, 0xFFB300, noir},{0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}};
-
+/*
+	palette[nombre de modes d'affichage][couleurs fond de tuile + couleurs texte tuile][couleurs pour chaque valeur]
+*/
+static COULEUR palette[3][2][13]={{{0xC7B591,0xE2DDD3,0xC4B087, 0xFF8C61, 0xDE6D4D, 0xD94A3B, 0xDA2C14, 0xD7B95B, 0xDFB83F, 0xEEBD25, 0xFBC51E, 0xFFB300, noir},
+								{0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}},
+							   {{0x7F7F7F,0x00FF00,0x1E90FF, 0xA020F0, 0xADD8E6, 0xE6E6FA, 0xBFBFBF, 0x4DB430, 0xFF0000, 0xFFC0CB, 0x1E89FB, 0xDDA45D, noir},
+							    {0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}},
+							    {{blanc,0xFFF700,0x74F900, 0x00FFF8, 0x0020FF, 0x8200FF, 0xFF00C5, 0xFF004E, 0xFF0000, 0xFF7100, 0xFFCE00, 0x000000,0xFFFFFF},
+							    {0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, noir, blanc}}};
 /*
 void afficheAccueil()
 {
@@ -59,6 +66,81 @@ void afficheJeu()
 	
 	return;
 }
+
+
+void afficheAccueil(modeDifficulte difficulte, modeAffichage affichage, modeFusion fusion)
+{
+	fill_screen(beige);
+	afficheTexteAccueil();
+	if(affichage==AFF0)
+	{
+		afficheBoutonAff0(True);
+		afficheBoutonAff1(False);
+	}
+	else if(affichage==AFF1)
+	{
+		afficheBoutonAff1(True);
+		afficheBoutonAff0(False);
+	}
+	
+	if(difficulte==FACILE)
+	{
+		afficheBoutonFacile(True);
+		afficheBoutonDifficile(False);
+	}
+	else if(difficulte==DIFFICILE)
+	{
+		afficheBoutonFacile(False);
+		afficheBoutonDifficile(True);
+	}
+	
+	if(fusion==CLASSIQUE)
+	{
+		afficheBoutonClassique(True);
+		afficheBoutonTotale(False);
+	}
+	else if(fusion==TOTALE)
+	{
+		afficheBoutonClassique(False);
+		afficheBoutonTotale(True);
+	}
+	affiche_all();
+}
+
+
+void afficheBoutonAff0(BOOL actif)
+{
+	
+}
+
+void afficheBoutonAff1(BOOL actif)
+{
+	
+}
+
+void afficheBoutonFacile(BOOL actif)
+{
+	
+}
+
+void afficheBoutonDifficile(BOOL actif)
+{
+	
+}
+
+void afficheBoutonClassique(BOOL actif)
+{
+	
+}
+
+void afficheBoutonTotale(BOOL actif)
+{
+	
+}
+
+
+
+
 
 
 void afficheBoutonHaut(BOOL a)
@@ -255,7 +337,7 @@ void afficheGrille()
 
 
 
-void affichePlateau()
+void affichePlateau(modeAffichage choix)
 {
 	int i, j;
 	
@@ -270,27 +352,27 @@ void affichePlateau()
 			pt1.x=50+2*rayon+100*i     ; pt1.y=50-2*rayon+100*(j+1) ;
 			pt2.x=50-2*rayon+100*(i+1) ; pt2.y=50+2*rayon+100*j     ;
 		
-			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);				
-			draw_fill_circle(pt1, rayon, palette[0][plateau[i][j]]);
-			draw_fill_circle(pt2, rayon, palette[0][plateau[i][j]]);
+			draw_fill_rectangle(pt1, pt2, palette[choix][0][plateau[i][j]]);				
+			draw_fill_circle(pt1, rayon, palette[choix][0][plateau[i][j]]);
+			draw_fill_circle(pt2, rayon, palette[choix][0][plateau[i][j]]);
 			
 			pt2.y=50-rayon+100*(j+1);
-			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
+			draw_fill_rectangle(pt1, pt2, palette[choix][0][plateau[i][j]]);
 			
 			pt1.x=50-2*rayon+100*(i+1);
 			pt2.x=50-rayon+100*(i+1); pt2.y=50+2*rayon+100*j;
 			
-			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
-			draw_fill_circle(pt1, rayon, palette[0][plateau[i][j]]);
+			draw_fill_rectangle(pt1, pt2, palette[choix][0][plateau[i][j]]);
+			draw_fill_circle(pt1, rayon, palette[choix][0][plateau[i][j]]);
 			
 			pt2.x=50+2*rayon+100*i;
 			pt1.y=50+rayon+100*j;
 			
-			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
-			draw_fill_circle(pt2, rayon, palette[0][plateau[i][j]]);
+			draw_fill_rectangle(pt1, pt2, palette[choix][0][plateau[i][j]]);
+			draw_fill_circle(pt2, rayon, palette[choix][0][plateau[i][j]]);
 			
 			pt1.x=50+rayon+100*i     ; pt1.y=50-2*rayon+100*(j+1) ;
-			draw_fill_rectangle(pt1, pt2, palette[0][plateau[i][j]]);
+			draw_fill_rectangle(pt1, pt2, palette[choix][0][plateau[i][j]]);
 				
 			if(plateau[i][j]!=0)
 			{
@@ -313,7 +395,7 @@ void affichePlateau()
 					pt1.x=50+2*rayon+100*i;
 				}
 				
-				aff_int(pow(2,plateau[i][j]), 28, pt1, palette[1][plateau[i][j]]); 
+				aff_int(pow(2,plateau[i][j]), 28, pt1, palette[choix][1][plateau[i][j]]); 
 			}	
 			
 			
@@ -323,6 +405,8 @@ void affichePlateau()
 	affiche_all();
 	return;
 }
+
+
 
 
 void afficheScore(int score)
@@ -336,4 +420,17 @@ void afficheScore(int score)
 	aff_int(score, 40, P1, darkgray);
 	
 	
+}
+
+
+void afficheTexteAccueil()
+{
+	
+	POINT P4096={462, 850};
+	POINT P1
+	
+	
+	aff_pol("4096", 100, P4096, gray);
+	P4096.x-=2; P4096.y+=2;	
+	aff_pol("4096", 100, P4096, darkgray);
 }

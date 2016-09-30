@@ -14,7 +14,7 @@ int plateau[T_GRILLE][T_GRILLE];
 
 typedef enum
 {
-	HAUT, BAS, GAUCHE, DROITE, AIDE, QUITTER//, START, MODE_AFF_1, MODE_AFF_2, FACILE, DIFFICILE, FU_CLASSIQUE, FU_TOTALE
+	HAUT, BAS, GAUCHE, DROITE, AIDE, QUITTER, START, B_AFF0, B_AFF1, B_FACILE, B_DIFFICILE, B_CLASSIQUE, B_TOTALE
 }choixBouton;
 
 
@@ -28,6 +28,11 @@ typedef enum
 {
 	FACILE, DIFFICILE
 }modeDifficulte;
+
+typedef enum
+{
+	AFF0=0, AFF1=1, AFF2=2
+}modeAffichage;
 
 
 #endif

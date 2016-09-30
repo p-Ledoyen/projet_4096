@@ -10,9 +10,17 @@
 
 //void initInterfaces(t_interface *interface1, t_interface *interface2);
 
-void afficheAccueil();
+void afficheAccueil(modeDifficulte difficulte, modeAffichage affichage, modeFusion fusion);
 
 void afficheJeu();
+
+void afficheBoutonAff0(BOOL actif);
+void afficheBoutonAff1(BOOL actif);
+void afficheBoutonFacile(BOOL actif);
+void afficheBoutonDifficile(BOOL actif);
+void afficheBoutonClassique(BOOL actif);
+void afficheBoutonTotale(BOOL actif);
+void afficheTexteAccueil();
 
 void afficheBoutonHaut(BOOL aide);
 void afficheBoutonBas(BOOL a);//a -> aide
@@ -26,6 +34,7 @@ void afficheBoutonAideOff();
 void effacerBoutonAide();
 
 void affichePlateau();
+void affichePlateau2();
 void afficheScore(int score); // pas de pointeur
 
 //void afficheGrille();
