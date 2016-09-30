@@ -2,7 +2,7 @@
 
 
 
-void initPlateau()
+void initPlateau(int *nombreZeros)
 {
 	int i,j;
 	
@@ -10,15 +10,17 @@ void initPlateau()
 	{
 		for(j=0; j<T_GRILLE; j++)
 		{
-			plateau[i][j]=alea_int(9);
+			plateau[i][j]=0;
 		}
 	}
+	generer_2(FACILE, nombreZeros);
+	generer_2(FACILE, nombreZeros);
 	return;
 }
 
 	
 	
-void initJeu(t_bouton* clavier)
+/*void initJeu(t_bouton* clavier)
 {
 	t_bouton bt_haut, bt_bas, bt_gauche, bt_droite,bt_aideOn, bt_aideOff, bt_quitter;
 	
@@ -88,33 +90,9 @@ void initJeu(t_bouton* clavier)
 
 
 	
-}
+}*/
 
-// FONCTION D'AJOUT DE TUILE EN MODE FACILE //
-void generer_2_facile(int* nbZeros)
-//En mode facile, on génère un 2 sur une case libre aléatoire sans risque de boulcer indéfiniment
-{
-        unsigned int i = 0, j = 0, k = 0, occurrence = alea_int(*nbZeros)/* Indice de la case nulle à modifier */;
 
-        while(k != occurrence && k < T_GRILLE * T_GRILLE) //Tant qu'il reste des cases à parcourir
-        {
-                if(k == occurrence) //Si on a atteint l'indice de la case à modifier
-                {
-                        plateau[i][j] = 1; //On y insère un 2
-                        (*nbZeros)--; //La nombre de cases vides diminue de 1
-                }
-                else //Autrement, 
-                {
-                        k++;
-                }
-                i++;
-                i %= 8; //On ne doit pas sortir du plateau
-                j++;
-                j %= 8;
-        }
-
-        return;
-}
 
 int pop2F(int *nombreZeros)
 {
@@ -126,13 +104,12 @@ int pop2F(int *nombreZeros)
 		j=alea_int(T_GRILLE);
 	}while(plateau[i][j]!=0);
 	
-	plateau[i][j]=1;
+	plateau[i][j]=alea_int(2);
 	(*nombreZeros)--;
 	
 	return 0;
 }
 
-///////////////////////////////////////////////////////
 
 // FONCTIONS DE DEPLACEMENT EN MODE FUSION CLASSIQUE //
 
@@ -163,10 +140,7 @@ int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 				while(plateau[iColonne][iLigne]==0 && iLigne<T_GRILLE) //on cherche la tuile suivante non nulle
 				{
 					iLigne++;
-				}
-				
-				
-				
+				}				
 				if(plateau[iColonne][iLigne]==plateau[iColonne][iSelec] && iLigne<T_GRILLE) //si les deux tuiles sont de même valeur
 				{
 					if(doitJouer)
@@ -342,7 +316,7 @@ int versGauche(int *nombreZeros, int *score, BOOL doitJouer)
 				{
 					if(doitJouer)
 					{
-						plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
+						plateau[iSelec][iLigne]++;		//on double la valeur de la tuile de réf
 						plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
 					}
 					(*nombreZeros)++;
@@ -428,7 +402,7 @@ int versDroite(int *nombreZeros, int *score, BOOL doitJouer)
 				{
 					if(doitJouer)
 					{
-						plateau[iColonne][iSelec]++;		//on double la valeur de la tuile de réf
+						plateau[iSelec][iLigne]++;		//on double la valeur de la tuile de réf
 						plateau[iColonne][iLigne]=0;		//et on efface la deuxième tuile
 					}
 					(*nombreZeros)++;
@@ -516,4 +490,111 @@ choixBouton meilleurCoup()
 	
 	
 	return meilleur;
+}
+
+
+
+
+
+
+void generer_2(modeDifficulte difficulte, int* nbZeros)
+{
+        if(difficulte == FACILE)
+        {
+                generer_nouvelle_tuile_facile(nbZeros);
+        }
+        else if(difficulte == DIFFICILE)
+        {
+                generer_nouvelle_tuile_difficile(nbZeros);
+        }
+
+        return;
+        
+        
+}
+
+
+
+void generer_nouvelle_tuile_facile(int* nbZeros) //En mode facile, on g\303\251n\303\250re un 2 sur une case libre al\303\251atoire sans risque de boulcer ind\303\251finiment
+{
+        int i = 0, j = 0, k = 0, indice /* Indice de la case nulle \303\240 modifier */;
+
+        if(*nbZeros > 0) //S'il y a au moins un zéro sur le plateau, on est s\303\273r de ne pas boucler ind\303\251finiment
+        {
+                indice = alea_int(*nbZeros);
+                while(k <= indice)
+                {
+                		j=0;
+                        while(k <= indice && j<T_GRILLE)
+                        {
+                        		
+                                if(plateau[i][j]==0) //Dès qu'on a atteint la case à modifier...
+                                {                  
+                                		if(k == indice)
+                                		{                                     
+                                        	plateau[i][j] = alea_int(2)+1; //... on y insère un 2 ou un 4
+                                        	(*nbZeros)--; //Le nombre de cases vides diminue de 1
+                                        }
+                                        k++;
+                                }
+                                j++;
+                               
+                        }
+                        i++;
+                }
+        }
+
+        return;
+}
+
+void generer_nouvelle_tuile_difficile(int* nbZeros) //Place un 2 ou un 4 \303\240 c\303\264t\303\251 du max ayant une case voisine libre
+{
+        int i, j, maxAccessible = 0 /* Le max le plus proche d'une casse vide */, iNouv = T_GRILLE - 1, jNouv = T_GRILLE - 1;
+
+        for(i = 0; i < T_GRILLE; i++)
+        {
+                for(j = 0; j < T_GRILLE; j++)
+                {
+                        if(plateau[i][j] == 0) //Si on est sur une case vide
+                        {
+                                //On teste les cases alentour...
+                                if(i + 1 < T_GRILLE) //Sans sortir du plateau
+                                {
+                                        if(plateau[i+1][j] > maxAccessible) //Si la case adjacente est un max local
+                                        {
+                                                iNouv = i; //On stocke les coordonn\303\251es actuelles en vue d'y placer un 2 ou un 4
+                                                jNouv = j;
+                                        }
+                                }
+                                if(i - 1 < T_GRILLE) //Sans sortir du plateau
+                                {
+                                        if(plateau[i-1][j] > maxAccessible) //Si la case adjacente est un max local
+                                        {
+                                                iNouv = i; //On stocke les coordonn\303\251es actuelles en vue d'y placer un 2 ou un 4
+                                                jNouv = j;
+                                        }
+                                }
+                                if(j + 1 < T_GRILLE) //Sans sortir du plateau
+                                {
+                                        if(plateau[i][j+1] > maxAccessible) //Si la case adjacente est un max local
+                                        {
+                                                iNouv = i; //On stocke les coordonn\303\251es actuelles en vue d'y placer un 2 ou un 4
+                                                jNouv = j;
+                                        }
+                                }
+                                if(j - 1 < T_GRILLE) //Sans sortir du plateau
+                                {
+                                        if(plateau[i][j-1] > maxAccessible) //Si la case adjacente est un max local
+                                        {
+                                                iNouv = i; //On stocke les coordonn\303\251es actuelles en vue d'y placer un 2 ou un 4
+                                                jNouv = j;
+                                        }
+                                }
+                        }
+                }
+        }
+        plateau[iNouv][jNouv] = alea_int(3); //On g\303\251n\303\250re un 2 ou un 4
+        (*nbZeros)--; //Le nombre globasl de cases nulles vient de baisser de 1
+
+        return;
 }

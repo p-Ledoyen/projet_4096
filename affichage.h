@@ -14,8 +14,8 @@ void afficheAccueil();
 
 void afficheJeu();
 
-void afficheBoutonHaut(BOOL a);
-void afficheBoutonBas(BOOL a);
+void afficheBoutonHaut(BOOL aide);
+void afficheBoutonBas(BOOL a);//a -> aide
 void afficheBoutonDroite(BOOL a);
 void afficheBoutonGauche(BOOL a);
 
@@ -26,7 +26,7 @@ void afficheBoutonAideOff();
 void effacerBoutonAide();
 
 void affichePlateau();
-void afficheScore(int *score);
+void afficheScore(int score); // pas de pointeur
 
 //void afficheGrille();
 

@@ -36,6 +36,7 @@ void afficheJeu()
 	fill_screen(beige);
 	
 	POINT P1, P2,
+		  P4096 ={L_FENETRE-280, H_FENETRE-50},
 		  Pscore={L_FENETRE-320, H_FENETRE-500},
 		  Paide ={L_FENETRE-295, H_FENETRE-570};
 
@@ -50,9 +51,10 @@ void afficheJeu()
 	afficheBoutonGauche(False);
 	afficheBoutonAideOff();
 	
-	
+	aff_pol("4096", 80, P4096, darkgray);
 	aff_pol("Score :", 40, Pscore, darkgray);
 	aff_pol("Aide :", 40, Paide, darkgray);
+	
 	
 	
 	return;
@@ -262,7 +264,7 @@ void affichePlateau()
 		for(j=0; j<T_GRILLE; j++)
 		{
 			
-			POINT pt1, pt2;
+			POINT pt1, pt2; // attention
 			int rayon = 8;
 			
 			pt1.x=50+2*rayon+100*i     ; pt1.y=50-2*rayon+100*(j+1) ;
@@ -323,7 +325,7 @@ void affichePlateau()
 }
 
 
-void afficheScore(int *score)
+void afficheScore(int score)
 {
 	
 	POINT P1={L_FENETRE-170, H_FENETRE-501},
@@ -331,7 +333,7 @@ void afficheScore(int *score)
 		  
 	draw_fill_rectangle(P1, P2, beige);
 	
-	aff_int(*score, 40, P1, darkgray);
+	aff_int(score, 40, P1, darkgray);
 	
 	
 }
