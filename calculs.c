@@ -2,7 +2,7 @@
 
 
 
-void initPlateau(int *nombreZeros)
+void initalise_plateau(int *nombreZeros)
 {
 	int i,j;
 	
@@ -10,122 +10,37 @@ void initPlateau(int *nombreZeros)
 	{
 		for(j=0; j<T_GRILLE; j++)
 		{
-			plateau[i][j]=alea_int(13);
+			plateau[i][j]=i+1;
 		}
 	}
-	generer_2(FACILE, nombreZeros);
-	generer_2(FACILE, nombreZeros);
+	generer_nouvelle_tuile(FACILE, nombreZeros);
+	generer_nouvelle_tuile(FACILE, nombreZeros);
 	return;
 }
 
-	
-	
-/*void initJeu(t_bouton* clavier)
+void deplacer_vers(choixBouton boutonChoisi, modeDifficulte difficulte, int *nbZeros, int *score)
 {
-	t_bouton bt_haut, bt_bas, bt_gauche, bt_droite,bt_aideOn, bt_aideOff, bt_quitter;
-	
-	bt_haut.texte="H";
-	bt_haut.nom=HAUT;
-	bt_haut.pt_hg.x= 975; bt_haut.pt_hg.y= 750;
-	bt_haut.pt_bd.x= 1075; bt_haut.pt_bd.y= 650;
-	bt_haut.clr_fond=gris;
-	bt_haut.clr_texte=blanc;
-	bt_haut.t_texte=50;
-	
-	bt_bas.texte="B";
-	bt_bas.nom=BAS;
-	bt_bas.pt_hg.x= 975; bt_bas.pt_hg.y= 550;
-	bt_bas.pt_bd.x= 1075; bt_bas.pt_bd.y= 450;
-	bt_bas.clr_fond=gris;
-	bt_bas.clr_texte=blanc;
-	bt_bas.t_texte=50;
-	
-	bt_gauche.texte="G";
-	bt_gauche.nom=GAUCHE;
-	bt_gauche.pt_hg.x= 875; bt_gauche.pt_hg.y= 650;
-	bt_gauche.pt_bd.x= 975; bt_gauche.pt_bd.y= 550;
-	bt_gauche.clr_fond=gris;
-	bt_gauche.clr_texte=blanc;
-	bt_gauche.t_texte=50;
-	
-	bt_droite.texte="D";
-	bt_droite.nom=DROITE;
-	bt_droite.pt_hg.x= 1075; bt_droite.pt_hg.y= 650;
-	bt_droite.pt_bd.x= 1175; bt_droite.pt_bd.y= 550;
-	bt_droite.clr_fond=gris;
-	bt_droite.clr_texte=blanc;
-	bt_droite.t_texte=50;
-	
-	bt_aideOn.texte="On";
-	bt_aideOn.nom=AIDE;
-	bt_aideOn.pt_hg.x= 1025-64; bt_aideOn.pt_hg.y=300;
-	bt_aideOn.pt_bd.x= 1025; bt_aideOn.pt_bd.y= 300-64;
-	bt_aideOn.clr_fond=gris;
-	bt_aideOn.clr_texte=blanc;
-	bt_aideOn.t_texte=15;
-	
-	bt_aideOff.texte="Off";
-	bt_aideOff.nom=AIDE;
-	bt_aideOff.pt_hg.x= 1025; bt_aideOff.pt_hg.y= 300;
-	bt_aideOff.pt_bd.x= 1025+64; bt_aideOff.pt_bd.y= 300-64;
-	bt_aideOff.clr_fond=gris;
-	bt_aideOff.clr_texte=blanc;
-	bt_aideOff.t_texte=15;
-	
-	bt_quitter.texte="Quitter";
-	bt_quitter.nom=QUITTER;
-	bt_quitter.pt_hg.x= 1025-64; bt_quitter.pt_hg.y= 300-64-20;
-	bt_quitter.pt_bd.x= 1025+64; bt_quitter.pt_bd.y= 300-64-20-64;
-	bt_quitter.clr_fond=gris;
-	bt_quitter.clr_texte=blanc;
-	bt_quitter.t_texte=15;
-	
-	clavier[0]=bt_haut;
-	clavier[1]=bt_bas;
-	clavier[2]=bt_gauche;
-	clavier[3]=bt_droite;
-	clavier[4]=bt_aideOn;
-	clavier[5]=bt_aideOff;
-	clavier[6]=bt_quitter;
-
-
-	
-}*/
-
-
-
-int pop2F(int *nombreZeros)
-{
-	int i,j;
-	
-	do
+	if(difficulte==FACILE)
 	{
-		i=alea_int(T_GRILLE);
-		j=alea_int(T_GRILLE);
-	}while(plateau[i][j]!=0);
-	
-	plateau[i][j]=alea_int(2);
-	(*nombreZeros)--;
-	
-	return 0;
+		switch(boutonChoisi)
+		{
+			case HAUT:	versHaut(nbZeros, score, True);	break;
+			case BAS:	versBas(nbZeros, score, True);	break;
+			case GAUCHE:versGauche(nbZeros, score, True);	break;
+			case DROITE:versDroite(nbZeros, score, True);	break;
+			default:break;
+		}
+	}
 }
-
 
 // FONCTIONS DE DEPLACEMENT EN MODE FUSION CLASSIQUE //
 
 int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 {
-	/*
-	 *   TO DO : retourner le score
-	 */
-	
 	int iColonne, iLigne, iPlace, iSelec;
-	
 	/*
 	 * 	Calculs des sommes 
 	 */
-	
-	
 	for(iColonne=0; iColonne<T_GRILLE; iColonne++)  //on parcourt toutes les colonnes
 	{
 		iSelec=0;		//indice de tuile de référence
@@ -134,7 +49,6 @@ int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 	
 		while(iSelec<T_GRILLE && iLigne<T_GRILLE)	//tant que l'on est bien dans la colonne
 		{
-			
 			if(plateau[iColonne][iSelec]!=0)	//si la tuile de référence est non nulle
 			{
 				while(plateau[iColonne][iLigne]==0 && iLigne<T_GRILLE) //on cherche la tuile suivante non nulle
@@ -152,7 +66,6 @@ int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 					(*nombreZeros)++;
 					iSelec=iLigne+1;
 					iLigne=iSelec+1;
-					
 				}
 				else
 				{
@@ -160,16 +73,12 @@ int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 					iLigne=iSelec+1;
 				}
 			}	
-			
-			
 			else  //si la tuile de référence est nulle, on avance sans rien faire
 			{
 				iSelec++;
 				iLigne++;
 			}
 		}
-		
-		
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
@@ -183,7 +92,6 @@ int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 					iPlace++;
 				}
 			}
-			
 			while(iPlace<T_GRILLE)
 			{
 				plateau[iColonne][iPlace]=0;
@@ -191,42 +99,29 @@ int versBas(int *nombreZeros, int *score, BOOL doitJouer)
 			}
 		}
 	}
-	
 	return 0;		
 }
 
 
 int versHaut(int *nombreZeros, int *score, BOOL doitJouer)
 {
-	/*
-	 *   TO DO : retourner le score
-	 */
-	
 	int iColonne, iLigne, iPlace, iSelec;
-	
 	/*
 	 * 	Calculs des sommes 
 	 */
-	
-	
 	for(iColonne=T_GRILLE-1; iColonne>=0; iColonne--)  //on parcourt toutes les colonnes
 	{
 		iSelec=T_GRILLE-1;		//indice de tuile de référence
 		iLigne=T_GRILLE-2; 		//indice de tuile de parcours des lignes
 		iPlace=T_GRILLE-1;		//indice de la case suivante à remplir
-	
 		while(iSelec>=0 && iLigne>=0)	//tant que l'on est bien dans la colonne
 		{
-			
 			if(plateau[iColonne][iSelec]!=0)	//si la tuile de référence est non nulle
 			{
 				while(plateau[iColonne][iLigne]==0 && iLigne>=0) //on cherche la tuile suivante non nulle
 				{
 					iLigne--;
 				}
-				
-				
-				
 				if(plateau[iColonne][iLigne]==plateau[iColonne][iSelec] && iLigne>=0) //si les deux tuiles sont de même valeur
 				{
 					if(doitJouer)
@@ -244,17 +139,13 @@ int versHaut(int *nombreZeros, int *score, BOOL doitJouer)
 					iSelec=iLigne; 		//sinon, les valeurs ne changent pas, et la tuile non nulle suivante devient la tuile de référence
 					iLigne=iSelec-1;
 				}
-			}	
-			
-			
+			}
 			else  //si la tuile de référence est nulle, on avance sans rien faire
 			{
 				iSelec--;
 				iLigne--;
 			}
 		}
-		
-		
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
@@ -268,7 +159,6 @@ int versHaut(int *nombreZeros, int *score, BOOL doitJouer)
 					iPlace--;
 				}
 			}
-			
 			while(iPlace>=0)
 			{
 				plateau[iColonne][iPlace]=0;
@@ -276,42 +166,30 @@ int versHaut(int *nombreZeros, int *score, BOOL doitJouer)
 			}
 		}
 	}
-	
 	return 0;	
 }
 
 
 int versGauche(int *nombreZeros, int *score, BOOL doitJouer)
 {
-	/*
-	 *   TO DO : retourner le score
-	 */
-	
 	int iColonne, iLigne, iPlace, iSelec;
 	
 	/*
 	 * 	Calculs des sommes 
 	 */
-	
-	
 	for(iLigne=0; iLigne<T_GRILLE; iLigne++)  //on parcourt toutes les lignes
 	{
 		iSelec=0;		//indice de tuile de référence
 		iColonne=1; 	//indice de tuile de parcours des colonnes
 		iPlace=0;		//indice de la case suivante à remplir
-	
 		while(iSelec<T_GRILLE && iColonne<T_GRILLE)	//tant que l'on est bien dans la colonne
 		{
-			
 			if(plateau[iSelec][iLigne]!=0)	//si la tuile de référence est non nulle
 			{
 				while(plateau[iColonne][iLigne]==0 && iColonne<T_GRILLE) //on cherche la tuile suivante non nulle
 				{
 					iColonne++;
 				}
-				
-				
-				
 				if(plateau[iColonne][iLigne]==plateau[iSelec][iLigne] && iColonne<T_GRILLE) //si les deux tuiles sont de même valeur
 				{
 					if(doitJouer)
@@ -330,16 +208,12 @@ int versGauche(int *nombreZeros, int *score, BOOL doitJouer)
 					iColonne=iSelec+1;
 				}
 			}	
-			
-			
 			else  //si la tuile de référence est nulle, on avance sans rien faire
 			{
 				iSelec++;
 				iColonne++;
 			}
 		}
-		
-		
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
@@ -353,51 +227,36 @@ int versGauche(int *nombreZeros, int *score, BOOL doitJouer)
 					iPlace++;
 				}
 			}
-			
 			while(iPlace<T_GRILLE)
 			{
 				plateau[iPlace][iLigne]=0;
 				iPlace++;
 			}
 		}
-	
 	}
-	
 	return 0;	
 }
 
 
 int versDroite(int *nombreZeros, int *score, BOOL doitJouer)
 {
-	/*
-	 *   TO DO : retourner le score
-	 */
-	
 	int iColonne, iLigne, iPlace, iSelec;
-	
 	/*
 	 * 	Calculs des sommes 
 	 */
-	
-	
 	for(iLigne=0; iLigne<T_GRILLE; iLigne++)  //on parcourt toutes les lignes
 	{
 		iSelec=T_GRILLE-1;		//indice de tuile de référence
 		iColonne=T_GRILLE-2; 	//indice de tuile de parcours des colonnes
 		iPlace=T_GRILLE-1;		//indice de la case suivante à remplir
-	
 		while(iSelec>=0 && iColonne>=0)	//tant que l'on est bien dans la colonne
 		{
-			
 			if(plateau[iSelec][iLigne]!=0)	//si la tuile de référence est non nulle
 			{
 				while(plateau[iColonne][iLigne]==0 && iColonne>=0) //on cherche la tuile suivante non nulle
 				{
 					iColonne--;
 				}
-				
-				
-				
 				if(plateau[iColonne][iLigne]==plateau[iSelec][iLigne] && iColonne>=0) //si les deux tuiles sont de même valeur
 				{
 					if(doitJouer)
@@ -416,16 +275,12 @@ int versDroite(int *nombreZeros, int *score, BOOL doitJouer)
 					iColonne=iSelec-1;
 				}
 			}	
-			
-			
 			else  //si la tuile de référence est nulle, on avance sans rien faire
 			{
 				iSelec--;
 				iColonne--;
 			}
-		}
-		
-		
+		}		
 		/*
 		 * 	Placement des nouvelles tuiles dans le plateau ("déplacement")	
 		 */
@@ -439,7 +294,6 @@ int versDroite(int *nombreZeros, int *score, BOOL doitJouer)
 					iPlace--;
 				}
 			}
-			
 			while(iPlace>=0)
 			{
 				plateau[iPlace][iLigne]=0;
@@ -447,7 +301,6 @@ int versDroite(int *nombreZeros, int *score, BOOL doitJouer)
 			}
 		}
 	}
-	
 	return 0;		
 }
 
@@ -455,7 +308,7 @@ int versDroite(int *nombreZeros, int *score, BOOL doitJouer)
 
 
 
-choixBouton meilleurCoup()
+choixBouton meilleur_coup()
 {
 	int score=0, max=0, joker=0; //joker sert à mettre quelquechose en paramètre à la place de nbZeros
 	choixBouton meilleur;
@@ -493,11 +346,7 @@ choixBouton meilleurCoup()
 }
 
 
-
-
-
-
-void generer_2(modeDifficulte difficulte, int* nbZeros)
+void generer_nouvelle_tuile(modeDifficulte difficulte, int* nbZeros)
 {
         if(difficulte == FACILE)
         {
@@ -512,7 +361,6 @@ void generer_2(modeDifficulte difficulte, int* nbZeros)
         
         
 }
-
 
 
 void generer_nouvelle_tuile_facile(int* nbZeros) //En mode facile, on g\303\251n\303\250re un 2 sur une case libre al\303\251atoire sans risque de boulcer ind\303\251finiment
@@ -597,4 +445,38 @@ void generer_nouvelle_tuile_difficile(int* nbZeros) //Place un 2 ou un 4 \303\24
         (*nbZeros)--; //Le nombre globasl de cases nulles vient de baisser de 1
 
         return;
+}
+
+
+BOOL a_gagne()
+{
+	BOOL trouve4096=False;
+	int i=0, j=0;
+	while(i<T_GRILLE && !trouve4096)
+	{
+		j=0;
+		while(j<T_GRILLE && !trouve4096)
+		{
+			printf("i %d, j%d\n",i,j);
+			if(plateau[i][j]==12) trouve4096=True;
+			j++;
+		}
+		i++;
+	}
+	return trouve4096;	
+}
+
+BOOL a_perdu(int *nbZeros)
+{
+	int joker=0;
+	if(*nbZeros==0)
+	{
+		versDroite(nbZeros, &joker, False);
+		versGauche(nbZeros, &joker, False);
+		versHaut(nbZeros, &joker, False);
+		versBas(nbZeros, &joker, False);
+		if(*nbZeros==0) return True;
+		else *nbZeros=0;
+	}
+	return False;
 }

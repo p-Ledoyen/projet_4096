@@ -1,7 +1,7 @@
 #include "controle.h"
 
 
-choixBouton attendreSelection()
+choixBouton attendre_selection()
 {
         POINT P;
         BOOL trouve=False;
@@ -39,14 +39,18 @@ choixBouton attendreSelection()
               		trouve=True;
               		boutonChoisi=AIDE;
               	}
-              	
+              	else if(a_clique_dans_bouton_quitter(P))
+              	{
+					trouve=True;
+              		boutonChoisi=QUITTER;
+              	}
         }
         return boutonChoisi;
 }
 
 
 
-choixBouton attendreParametres()
+choixBouton attendre_parametres()
 {
         POINT P;
         BOOL trouve=False;
@@ -98,8 +102,18 @@ choixBouton attendreParametres()
         return boutonChoisi;
 }
 
-void changerParametres(choixBouton boutonChoisi, modeDifficulte *difficulte, modeAffichage *affichage, modeFusion *fusion)
+void changer_parametres(choixBouton boutonChoisi, modeDifficulte *difficulte, modeAffichage *affichage, modeFusion *fusion)
 {
+	switch(boutonChoisi)
+	{
+		case B_AFF0:      *affichage=AFF0;		break;
+		case B_AFF1:      *affichage=AFF1;		break;
+		case B_FACILE: 	  *difficulte=FACILE;	break;
+		case B_DIFFICILE: *difficulte=DIFFICILE;break;
+		case B_CLASSIQUE: *fusion=CLASSIQUE;	break;
+		case B_TOTALE:    *fusion=TOTALE;		break;
+		default:break;
+	}
 }
 
 
@@ -176,33 +190,120 @@ BOOL a_clique_dans_bouton_aide(POINT P)
 	}
 }
 
+BOOL a_clique_dans_bouton_quitter(POINT P)
+{
+	POINT P1={L_FENETRE-260,140},
+		  P2={L_FENETRE-100,60};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
+}
+
 	
 BOOL a_clique_dans_bouton_aff0(POINT P)
 {
-	return False;
+	POINT P1={350,700},
+		  P2={550,600};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
 }
 BOOL a_clique_dans_bouton_aff1(POINT P)
 {
-	return False;
+	POINT P1={650,700},
+		  P2={850,600};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
 }
 BOOL a_clique_dans_bouton_facile(POINT P)
 {
-	return False;
+	POINT P1={350,500},
+		  P2={550,400};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
 }
 BOOL a_clique_dans_bouton_difficile(POINT P)
 {
-	return False;
+	POINT P1={650,500},
+		  P2={850,400};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
 }
+
 BOOL a_clique_dans_bouton_classique(POINT P)
 {
-	return False;
+	POINT P1={350,300},
+		  P2={550,200};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
 }
 BOOL a_clique_dans_bouton_totale(POINT P)
 {
-	return False;
+	POINT P1={650,300},
+		  P2={850,200};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
 }
+
 
 BOOL a_clique_dans_bouton_start(POINT P)
 {
-	return False;
+	POINT P1={350,150},
+		  P2={850,50};
+	
+	if(P.x >= P1.x && P.x <= P2.x && P.y >= P2.y && P.y <= P1.y)
+	{
+		return True;
+	}
+	else
+	{
+		return False;
+	}
 }

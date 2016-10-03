@@ -3,97 +3,72 @@
 #include "calculs.h"
 #include "controle.h"
 
-
 //compilations : ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:....:....:....:....|
-//               ....:....:....:....:....:....:....:....:....:....|....:....:...
-
+//               ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:....:....:....:....|
+//				 ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:.
 
 int main()
 {
-	
 	init_graphics(L_FENETRE,H_FENETRE);
 	affiche_auto_off();
-	
-	int nbZeros=T_GRILLE*T_GRILLE;
-	int score=0;
-	BOOL aideActivee=False, start=False;
+
+	int score=0, nbZeros=T_GRILLE*T_GRILLE;
+	BOOL aideActivee=False, start=False, finDePartie=False;
 	choixBouton boutonChoisi, boutonPropose;
 	modeDifficulte difficulte = FACILE;
 	modeAffichage affichage = AFF0;
 	modeFusion fusion = CLASSIQUE;
 	
-	afficheAccueil(difficulte, affichage, fusion);
+	affiche_accueil(difficulte, affichage, fusion);
 	do
 	{	
-		boutonChoisi=attendreParametres();
+		boutonChoisi=attendre_parametres();
 		if(boutonChoisi==START) start=TRUE;
-		else changerParametres(boutonChoisi, &difficulte, &affichage, &fusion);
-		afficheAccueil(difficulte, affichage, fusion);
+		else changer_parametres(boutonChoisi, &difficulte, &affichage, &fusion);
+		affiche_accueil(difficulte, affichage, fusion);
 	}while(!start);
 	
-	initPlateau(&nbZeros);
-	afficheJeu();
-	afficheScore(score);
-	affichePlateau(affichage);
+	initalise_plateau(&nbZeros);
+	affiche_jeu();
+	affiche_score(score);
+	affiche_plateau(affichage);
 
 	do
 	{
 		if(aideActivee)
 		{
 			score--;
-			boutonPropose=meilleurCoup();
-
-			switch(boutonPropose) // sortir du main
-			{
-				case HAUT:	afficheBoutonHaut(True);	break;
-				case BAS:	afficheBoutonBas(True);		break;
-				case GAUCHE:afficheBoutonGauche(True);	break;
-				case DROITE:afficheBoutonDroite(True);	break;
-				default:	break;
-			}
-			affiche_all();
+			boutonPropose=meilleur_coup();
+			affiche_bouton_propose(boutonPropose);
 		}
-		boutonChoisi=attendreSelection(); //fonction bloquante attendant un clic sur un bouton
-		switch(boutonChoisi)
+		boutonChoisi=attendre_selection(); //fonction bloquante attendant un clic sur un bouton
+		if(boutonChoisi==AIDE)
 		{
-			case HAUT:
-				versHaut(&nbZeros, &score, True);
-				generer_2(difficulte, &nbZeros);
-				break;
-				
-			case BAS:
-				versBas(&nbZeros, &score, True);
-				generer_2(difficulte, &nbZeros);
-				break;
-				
-			case GAUCHE:
-				versGauche(&nbZeros, &score, True);
-				generer_2(difficulte, &nbZeros);
-				break;
-			
-			case DROITE:
-				versDroite(&nbZeros, &score, True);
-				generer_2(difficulte, &nbZeros);
-				break;
-				
-			case AIDE:
-				aideActivee=!aideActivee;
-				afficheBoutonAide(aideActivee);
-				break;
-			
-			case QUITTER:
-				break;
+			aideActivee=!aideActivee;
+			affiche_bouton_Aide(aideActivee);
 		}
-		afficheScore(score);
-		affichePlateau(affichage);
-		afficheBoutonHaut(False);
-		afficheBoutonBas(False);
-		afficheBoutonGauche(False);
-		afficheBoutonDroite(False);
-		
-		
-	}while(boutonChoisi!=QUITTER && nbZeros>0);
-	
+		else if(boutonChoisi==QUITTER) finDePartie=True;
+		else
+		{
+			deplacer_vers(boutonChoisi, difficulte, &nbZeros, &score);
+			generer_nouvelle_tuile(difficulte, &nbZeros);
+		}
+		affiche_score(score);
+		affiche_plateau(affichage);
+		efface_bouton_propose();
+		if(a_gagne())
+		{
+			affiche_gagne();
+			finDePartie=True;
+			wait_clic();
+		}
+		else if(a_perdu())
+		{
+			affiche_perdu();
+			finDePartie=True;
+			wait_clic();
+		}
+	}while(!finDePartie);
 	
 	
 	return 0 ;

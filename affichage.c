@@ -3,42 +3,14 @@
 /*
 	palette[nombre de modes d'affichage][couleurs fond de tuile + couleurs texte tuile][couleurs pour chaque valeur]
 */
-static COULEUR palette[3][2][13]={{{0xC7B591,0xE2DDD3,0xC4B087, 0xFF8C61, 0xDE6D4D, 0xD94A3B, 0xDA2C14, 0xD7B95B, 0xDFB83F, 0xEEBD25, 0xFBC51E, 0xFFB300, noir},
-								{0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}},
+static COULEUR palette[2][2][13]={{{0xCEBFB6,0xF2E3DA,0xECE0C8, 0xF2B179, 0xF59563, 0xF55E3C, 0xF75E3C, 0xEDCE72, 0xECCB61, 0xEDC750, 0xEDC440, 0xECC12E, 0xFF3D3D},
+								{0x776E65, 0x776E65, 0x776E65, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}},
 							   {{0x7F7F7F,0x00FF00,0x1E90FF, 0xA020F0, 0xADD8E6, 0xE6E6FA, 0xBFBFBF, 0x4DB430, 0xFF0000, 0xFFC0CB, 0x1E89FB, 0xDDA45D, noir},
-							    {0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}},
-							    {{blanc,0xFFF700,0x74F900, 0x00FFF8, 0x0020FF, 0x8200FF, 0xFF00C5, 0xFF004E, 0xFF0000, 0xFF7100, 0xFFCE00, 0x000000,0xFFFFFF},
-							    {0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, noir, blanc}}};
-/*
-void afficheAccueil()
-{
-}
-*/
+							    {0x4F4F4F, 0x4F4F4F, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc, blanc}}};
 
- 
-/*
-void afficheJeu(t_bouton* clavier)
-{
-	
-	fill_screen(beige);
-	
-	POINT P1, P2;
-	int i;
-	
-	P1.x = 50 ; P1.y = 50 ;
-	P2.x = 850 ; P2.y = 850 ;
-	draw_fill_rectangle(P1, P2, 0x8D8068);
-	//afficheGrille();
-	
-	for(i=0 ; i<7; i++)
-	{
-		afficheBouton(clavier[i]);
-	}
-	
-	return;
-}*/
 
-void afficheJeu()
+
+void affiche_jeu()
 {
 	fill_screen(beige);
 	
@@ -50,13 +22,14 @@ void afficheJeu()
 	
 	P1.x = 50 ; P1.y = 50 ;
 	P2.x = 50+100*T_GRILLE ; P2.y = 50+100*T_GRILLE ;
-	draw_fill_rectangle(P1, P2, 0x8D8068);
+	draw_fill_rectangle(P1, P2, 0xBBAD9F);
 	
-	afficheBoutonHaut(False);
-	afficheBoutonBas(False);
-	afficheBoutonDroite(False);
-	afficheBoutonGauche(False);
-	afficheBoutonAideOff();
+	affiche_bouton_Haut(False);
+	affiche_bouton_Bas(False);
+	affiche_bouton_Droite(False);
+	affiche_bouton_Gauche(False);
+	affiche_bouton_AideOff();
+	affiche_bouton_quitter();
 	
 	aff_pol("4096", 80, P4096, darkgray);
 	aff_pol("Score :", 40, Pscore, darkgray);
@@ -68,82 +41,48 @@ void afficheJeu()
 }
 
 
-void afficheAccueil(modeDifficulte difficulte, modeAffichage affichage, modeFusion fusion)
+void affiche_accueil(modeDifficulte difficulte, modeAffichage affichage, modeFusion fusion)
 {
 	fill_screen(beige);
-	afficheTexteAccueil();
+	affiche_texte_accueil();
+	affiche_bouton_Start(False);
 	if(affichage==AFF0)
 	{
-		afficheBoutonAff0(True);
-		afficheBoutonAff1(False);
+		affiche_bouton_Aff0(True);
+		affiche_bouton_Aff1(False);
 	}
 	else if(affichage==AFF1)
 	{
-		afficheBoutonAff1(True);
-		afficheBoutonAff0(False);
+		affiche_bouton_Aff1(True);
+		affiche_bouton_Aff0(False);
 	}
 	
 	if(difficulte==FACILE)
 	{
-		afficheBoutonFacile(True);
-		afficheBoutonDifficile(False);
+		affiche_bouton_Facile(True);
+		affiche_bouton_Difficile(False);
 	}
 	else if(difficulte==DIFFICILE)
 	{
-		afficheBoutonFacile(False);
-		afficheBoutonDifficile(True);
+		affiche_bouton_Facile(False);
+		affiche_bouton_Difficile(True);
 	}
 	
 	if(fusion==CLASSIQUE)
 	{
-		afficheBoutonClassique(True);
-		afficheBoutonTotale(False);
+		affiche_bouton_Classique(True);
+		affiche_bouton_Totale(False);
 	}
 	else if(fusion==TOTALE)
 	{
-		afficheBoutonClassique(False);
-		afficheBoutonTotale(True);
+		affiche_bouton_Classique(False);
+		affiche_bouton_Totale(True);
 	}
 	affiche_all();
 }
 
 
-void afficheBoutonAff0(BOOL actif)
-{
-	
-}
-
-void afficheBoutonAff1(BOOL actif)
-{
-	
-}
-
-void afficheBoutonFacile(BOOL actif)
-{
-	
-}
-
-void afficheBoutonDifficile(BOOL actif)
-{
-	
-}
-
-void afficheBoutonClassique(BOOL actif)
-{
-	
-}
-
-void afficheBoutonTotale(BOOL actif)
-{
-	
-}
-
-
-
-
-
-
-void afficheBoutonHaut(BOOL a)
+void affiche_bouton_Haut(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -169,7 +108,7 @@ void afficheBoutonHaut(BOOL a)
 	return;
 }
 
-void afficheBoutonBas(BOOL a)
+void affiche_bouton_Bas(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -197,7 +136,7 @@ void afficheBoutonBas(BOOL a)
 }
 
 
-void afficheBoutonDroite(BOOL a)
+void affiche_bouton_Droite(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -224,7 +163,7 @@ void afficheBoutonDroite(BOOL a)
 	return;
 }
 
-void afficheBoutonGauche(BOOL a)
+void affiche_bouton_Gauche(BOOL a)
 {
 	POINT P, P1, P2, P3;
 	
@@ -251,21 +190,21 @@ void afficheBoutonGauche(BOOL a)
 }
 
 
-void afficheBoutonAide(BOOL a)
+void affiche_bouton_Aide(BOOL a)
 {
 	if(a)
 	{
-		afficheBoutonAideOn();
+		affiche_bouton_AideOn();
 	}
 	else
 	{
-		afficheBoutonAideOff();
+		affiche_bouton_AideOff();
 	}
 }
 
-void afficheBoutonAideOff()
+void affiche_bouton_AideOff()
 {
-	effacerBoutonAide();
+	effacer_bouton_Aide();
 	
 	POINT P1, P2;
 	
@@ -275,16 +214,16 @@ void afficheBoutonAideOff()
 	
 	P1.y=P1.y-15;
 	P2.y=P2.y+15;
-	draw_fill_circle(P1, 18, lightgrey);
-	draw_circle(P1, 18, rouge);
+	draw_fill_circle(P1, 18, rouge);
+	draw_fill_circle(P1, 15, lightgrey);
 	draw_fill_circle(P2, 15, gris);
 	
 	return;
 }
 	
-void afficheBoutonAideOn()
+void affiche_bouton_AideOn()
 {
-	effacerBoutonAide();
+	effacer_bouton_Aide();
 	
 	POINT P1, P2;
 	
@@ -294,14 +233,14 @@ void afficheBoutonAideOn()
 	
 	P1.y=P1.y-15;
 	P2.y=P2.y+15;
-	draw_fill_circle(P2, 18, lightgrey);
-	draw_circle(P2, 18, vert);
+	draw_fill_circle(P2, 18, vert);
+	draw_fill_circle(P2, 15, lightgrey);
 	draw_fill_circle(P1, 15, gris);
 	
 	return;
 }
 
-void effacerBoutonAide()
+void effacer_bouton_Aide()
 {
 	POINT P1, P2;
 	P1.x=L_FENETRE-120-18; P1.y=H_FENETRE-585+3;
@@ -310,34 +249,20 @@ void effacerBoutonAide()
 
 }
 
-
-/* AFFICHE GRILLE -- A GARDER POUR L'INSTANT
-void afficheGrille()
+void affiche_bouton_quitter()
 {
-	POINT P1, P2;
-	
-	int i, pas=100, taille=8, epaisseur=4;
-	
-	for(i=50 ; i<=(taille+1)*pas ; i+=pas)
-	{
-		P1.x = i-epaisseur; P1.y = 50 ;
-		P2.x = i+epaisseur ; P2.y = 850 ;
-		draw_fill_rectangle(P1, P2, 0xA29376);
-		
-		P1.x = 50 ; P1.y = i-epaisseur ;
-		P2.x = 850 ; P2.y = i+epaisseur ;
-		draw_fill_rectangle(P1, P2, 0xA29376);
-	}
-	
-	affiche_all();	
+	POINT P1={L_FENETRE-260,140},
+		  P2={L_FENETRE-100,60};
+	draw_fill_rectangle(P1, P2, 0x857242);
+	P1.x+=5; P1.y-=5;
+	P2.x-=5; P2.y+=5;
+	draw_fill_rectangle(P1, P2, 0xD6BE84);
+	P1.x=L_FENETRE-225; P1.y=120;
+	aff_pol("Quitter", 25, P1, blanc);
 	return;
-}*/
+}
 
-
-
-
-
-void affichePlateau(modeAffichage choix)
+void affiche_plateau(modeAffichage choix)
 {
 	int i, j;
 	
@@ -409,28 +334,160 @@ void affichePlateau(modeAffichage choix)
 
 
 
-void afficheScore(int score)
-{
-	
+void affiche_score(int score)
+{	
 	POINT P1={L_FENETRE-170, H_FENETRE-501},
 		  P2={L_FENETRE, H_FENETRE-551};
-		  
 	draw_fill_rectangle(P1, P2, beige);
-	
 	aff_int(score, 40, P1, darkgray);
-	
-	
+	return;
 }
 
 
-void afficheTexteAccueil()
+void affiche_texte_accueil()
 {
-	
-	POINT P4096={462, 850};
-	POINT P1
-	
-	
+	POINT P4096={462, 900};
 	aff_pol("4096", 100, P4096, gray);
 	P4096.x-=2; P4096.y+=2;	
 	aff_pol("4096", 100, P4096, darkgray);
+	return;
+}
+
+void affiche_bouton_Aff0(BOOL actif)
+{
+	POINT P1={350,700},
+		  P2={550,600};
+	char texte[]="Vue 1";
+	affiche_bouton_menu(actif, P1, P2, texte);
+	return;
+}
+
+void affiche_bouton_Aff1(BOOL actif)
+{
+	POINT P1={650,700},
+		  P2={850,600};
+	char texte[]="Vue 2";
+	affiche_bouton_menu(actif, P1, P2, texte);
+	return;
+}
+
+void affiche_bouton_Facile(BOOL actif)
+{
+	POINT P1={350,500},
+		  P2={550,400};
+	char texte[]="Facile";
+	affiche_bouton_menu(actif, P1, P2, texte);
+	return;
+}
+
+void affiche_bouton_Difficile(BOOL actif)
+{
+	POINT P1={650,500},
+		  P2={850,400};
+	char texte[]="   Difficile";
+	affiche_bouton_menu(actif, P1, P2, texte);
+	return;
+}
+
+void affiche_bouton_Classique(BOOL actif)
+{
+	POINT P1={350,300},
+		  P2={550,200};
+	char texte[]="Classique ";
+	affiche_bouton_menu(actif, P1, P2, texte);
+	return;
+}
+
+void affiche_bouton_Totale(BOOL actif)
+{
+	POINT P1={650,300},
+		  P2={850,200};
+	char texte[]="Totale";
+	affiche_bouton_menu(actif, P1, P2, texte);
+	return;
+}
+
+void affiche_bouton_Start(BOOL actif)
+{
+	POINT P1={350,150},
+		  P2={850,50};
+	char texte[]="Commencer la partie !";
+	affiche_bouton_menu(actif, P1, P2, texte);
+	return;
+}
+
+void affiche_bouton_menu(BOOL actif, POINT P1, POINT P2, char *texte)
+{
+	POINT P3={P1.x+5,P2.y+5},
+		  P4={P2.x-4,P1.y-5};
+	
+	if(actif)
+	{
+		draw_fill_rectangle(P1,P2, 0x568B60);
+		P1.x+=5; P1.y-=5;
+		P2.x-=5; P2.y+=5;
+		draw_fill_rectangle(P1,P2,0xE97814);
+		P3.x=(P1.x+P2.x)/2-strlen(texte)*6; P3.y=(P1.y+P2.y)/2+20;
+		aff_pol(texte,25,P3, blanc);
+	}
+	else
+	{
+		draw_fill_rectangle(P1,P2, 0x8C4644);
+		P1.x+=5; P1.y-=5;
+		P2.x-=5; P2.y+=5;
+		draw_fill_rectangle(P1,P2,0xCF6802);
+		P1.x-=9; P1.y+=9;
+		P2.x-=4; P2.y+=4;
+		draw_fill_rectangle(P1,P2,0xE97814);
+		P1.x-=1;      P1.y=P3.y+4;
+		P2.x=P1.x+10; P2.y=P1.y;
+		draw_fill_triangle(P1, P3, P2,0xCF6802);
+		P1.x=P4.x-4;  P1.y=P4.y;
+		P2.x=P1.x;    P2.y=P1.y+9;
+		draw_fill_triangle(P4, P2, P1, 0xCF6802);
+		P3.x=(P3.x+P4.x-10)/2-strlen(texte)*6; P3.y=(P3.y+P4.y+20)/2+20;
+		aff_pol(texte,25,P3, blanc);
+	}
+	
+	return;
+}
+
+
+void affiche_bouton_propose(choixBouton boutonPropose)
+{
+	switch(boutonPropose) // sortir du main
+	{
+		case HAUT:	affiche_bouton_Haut(True);	break;
+		case BAS:	affiche_bouton_Bas(True);		break;
+		case GAUCHE:affiche_bouton_Gauche(True);	break;
+		case DROITE:affiche_bouton_Droite(True);	break;
+		default:	break;
+	}
+	affiche_all();
+	return;
+}
+
+void efface_bouton_propose()
+{
+	affiche_bouton_Haut(False);
+	affiche_bouton_Bas(False);
+	affiche_bouton_Gauche(False);
+	affiche_bouton_Droite(False);
+	return;
+}
+
+void affiche_gagne()
+{
+	POINT P1={L_FENETRE-310, H_FENETRE-170},
+	      P2={L_FENETRE-250, H_FENETRE-430};
+	draw_fill_rectangle(P1, P2, jaune);
+	return;
+}
+
+void affiche_perdu()
+{
+	POINT P1={L_FENETRE-310, H_FENETRE-170},
+	      P2={L_FENETRE-250, H_FENETRE-430};      
+	draw_fill_rectangle(P1, P2, rouge);
+	return;
 }

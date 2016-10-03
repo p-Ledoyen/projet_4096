@@ -8,12 +8,9 @@
 #include "4096.h"
 
 
-void initPlateau(int *nombreZeros);
+void initalise_plateau(int *nombreZeros);
 
-//void initJeu(t_bouton* clavier);
-
-int pop2F(int *nombreZeros);
-
+void deplacer_vers(choixBouton boutonChoisi, modeDifficulte difficulte, int *nbZeros, int *score);
 
 int versBas(int *nombreZeros, int *score, BOOL doitJouer);
 
@@ -23,10 +20,14 @@ int versDroite(int *nombreZeros, int *score, BOOL doitJouer);
 
 int versGauche(int *nombreZeros, int *score, BOOL doitJouer);
 
-void generer_2(modeDifficulte difficulte, int* nbZeros);
+void generer_nouvelle_tuile(modeDifficulte difficulte, int* nbZeros);
 
 void generer_nouvelle_tuile_difficile(int* nbZeros);
 
 void generer_nouvelle_tuile_facile(int* nbZeros);
 
-choixBouton meilleurCoup();
+choixBouton meilleur_coup();
+
+BOOL a_gagne();
+
+BOOL a_perdu();

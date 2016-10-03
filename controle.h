@@ -8,17 +8,18 @@
 #include "4096.h"
 
 
-choixBouton attendreSelection();
+choixBouton attendre_selection();
 
-choixBouton attendreParametres();
+choixBouton attendre_parametres();
 
-void changerParametres(choixBouton boutonChoisi, modeDifficulte *difficulte, modeAffichage *affichage, modeFusion *fusion);
+void changer_parametres(choixBouton boutonChoisi, modeDifficulte *difficulte, modeAffichage *affichage, modeFusion *fusion);
 
 BOOL a_clique_dans_bouton_haut(POINT P);
 BOOL a_clique_dans_bouton_bas(POINT P);
 BOOL a_clique_dans_bouton_gauche(POINT P);
 BOOL a_clique_dans_bouton_droite(POINT P);
 BOOL a_clique_dans_bouton_aide(POINT P);
+BOOL a_clique_dans_bouton_quitter(POINT P);
 
 
 BOOL a_clique_dans_bouton_aff0(POINT P);

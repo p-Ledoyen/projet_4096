@@ -3,10 +3,9 @@
 
 #include "graphics.h"
 
-
 #define T_GRILLE 8
-#define L_FENETRE 400+100*T_GRILLE
-#define H_FENETRE 100+100*T_GRILLE
+#define L_FENETRE (400+100*T_GRILLE)
+#define H_FENETRE (100+100*T_GRILLE)
 #define T_NOMBRE 20 //Taille d'affichage des nombres dans les tuiles
 
 
