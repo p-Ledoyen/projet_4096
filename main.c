@@ -5,7 +5,8 @@
 
 //compilations : ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:....:....:....:....|
 //               ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:....:....:....:....|
-//				 ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:.
+//				 ....:....:....:....:....:....:....:....:....:....|....:....:....:....:....:....:....:....:....:....|
+//				 ....:...
 
 int main()
 {
@@ -50,7 +51,7 @@ int main()
 		else if(boutonChoisi==QUITTER) finDePartie=True;
 		else
 		{
-			deplacer_vers(boutonChoisi, difficulte, &nbZeros, &score);
+			deplacer_vers(boutonChoisi, fusion, &nbZeros, &score);
 			generer_nouvelle_tuile(difficulte, &nbZeros);
 		}
 		affiche_score(score);
@@ -62,7 +63,7 @@ int main()
 			finDePartie=True;
 			wait_clic();
 		}
-		else if(a_perdu())
+		else if(a_perdu(&nbZeros))
 		{
 			affiche_perdu();
 			finDePartie=True;

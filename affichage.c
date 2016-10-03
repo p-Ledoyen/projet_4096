@@ -479,15 +479,20 @@ void efface_bouton_propose()
 void affiche_gagne()
 {
 	POINT P1={L_FENETRE-310, H_FENETRE-170},
-	      P2={L_FENETRE-250, H_FENETRE-430};
-	draw_fill_rectangle(P1, P2, jaune);
+	      P2={L_FENETRE-50, H_FENETRE-430},
+	      P3={(P1.x+P2.x)/2,(P1.y+P2.y)/2+100},
+	      P4={(P1.x+P2.x)/2,(P1.y+P2.y)/2-40};
+	draw_fill_rectangle(P1, P2, 0x246CE4);
+	draw_fill_ellipse(P3, P4, 25, jaune);	
+	affiche_all();
 	return;
 }
 
 void affiche_perdu()
 {
 	POINT P1={L_FENETRE-310, H_FENETRE-170},
-	      P2={L_FENETRE-250, H_FENETRE-430};      
+	      P2={L_FENETRE-50, H_FENETRE-430};     
 	draw_fill_rectangle(P1, P2, rouge);
+	affiche_all();
 	return;
 }

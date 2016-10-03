@@ -10,7 +10,7 @@
 
 void initalise_plateau(int *nombreZeros);
 
-void deplacer_vers(choixBouton boutonChoisi, modeDifficulte difficulte, int *nbZeros, int *score);
+void deplacer_vers(choixBouton boutonChoisi, modeFusion fusion, int *nbZeros, int *score);
 
 int versBas(int *nombreZeros, int *score, BOOL doitJouer);
 

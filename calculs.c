@@ -10,7 +10,10 @@ void initalise_plateau(int *nombreZeros)
 	{
 		for(j=0; j<T_GRILLE; j++)
 		{
-			plateau[i][j]=i+1;
+			plateau[i][j]=i+3;
+			//if((i%2==0 && j%2==0)||(i%2!=0 && j%2!=0)) plateau[i][j]=1;
+			//else plateau[i][j]=2;
+			//(*nombreZeros)--;
 		}
 	}
 	generer_nouvelle_tuile(FACILE, nombreZeros);
@@ -18,14 +21,25 @@ void initalise_plateau(int *nombreZeros)
 	return;
 }
 
-void deplacer_vers(choixBouton boutonChoisi, modeDifficulte difficulte, int *nbZeros, int *score)
+void deplacer_vers(choixBouton boutonChoisi, modeFusion fusion, int *nbZeros, int *score)
 {
-	if(difficulte==FACILE)
+	if(fusion==CLASSIQUE)
 	{
 		switch(boutonChoisi)
 		{
-			case HAUT:	versHaut(nbZeros, score, True);	break;
-			case BAS:	versBas(nbZeros, score, True);	break;
+			case HAUT:	versHaut(nbZeros, score, True);		break;
+			case BAS:	versBas(nbZeros, score, True);		break;
+			case GAUCHE:versGauche(nbZeros, score, True);	break;
+			case DROITE:versDroite(nbZeros, score, True);	break;
+			default:break;
+		}
+	}
+	else if(fusion==TOTALE)
+	{
+		switch(boutonChoisi)
+		{
+			case HAUT:	versHaut(nbZeros, score, True);		break;
+			case BAS:	versBas(nbZeros, score, True);		break;
 			case GAUCHE:versGauche(nbZeros, score, True);	break;
 			case DROITE:versDroite(nbZeros, score, True);	break;
 			default:break;
@@ -457,13 +471,12 @@ BOOL a_gagne()
 		j=0;
 		while(j<T_GRILLE && !trouve4096)
 		{
-			printf("i %d, j%d\n",i,j);
 			if(plateau[i][j]==12) trouve4096=True;
 			j++;
 		}
 		i++;
 	}
-	return trouve4096;	
+	return trouve4096;
 }
 
 BOOL a_perdu(int *nbZeros)
