@@ -1,0 +1,59 @@
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,skins}
+
+\author{R. Craciun \and P. Ledoyen}
+\title{Projet "Jeu 4096"}
+\date{septembre 2016}
+
+
+
+\lstdefinestyle{styleC}{
+	language=C,
+	basicstyle=\ttfamily,
+	columns=flexible,
+	upquote=true,
+	keywordstyle=\bfseries\color{green!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+	%numbers=left,
+	%numberstyle=\small,
+}
+
+\newtcblisting{codeC}[2][]{
+    arc=5pt, outer arc=5pt,
+    listing only,
+    listing style=styleC,
+    center,
+    title=#2,
+    #1
+    }
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+
+\section{Strucutures de données}
+
+\begin{codeC}[hbox,enhanced,drop shadow]{Points}
+typedef struct
+{
+	int x,
+	int y
+}POINT;
+\end{codeC}
+
+text
+\end{document}
