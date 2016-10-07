@@ -1,5 +1,5 @@
-
 \documentclass[12pt,a4paper]{article}
+\usepackage[left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
@@ -15,8 +15,6 @@
 \title{Projet "Jeu 4096"}
 \date{septembre 2016}
 
-
-
 \lstdefinestyle{styleC}{
 	language=C,
 	basicstyle=\ttfamily,
@@ -30,10 +28,9 @@
 }
 
 \newtcblisting{codeC}[2][]{
-    arc=5pt, outer arc=5pt,
+    arc=6pt, outer arc=6pt,
     listing only,
     listing style=styleC,
-    center,
     title=#2,
     #1
     }
@@ -42,18 +39,47 @@
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\section{Objectif du projet}
+\begin{itemize}
+\item Réaliser un jeu de type "2048"
+\item Fonder l'organisation du programme sur le modèle CVM
+\item Intégrer différentes options et modularités (difficulté, interface, mode de fusion...)
+\end{itemize}
 
+\section{Organisation}
+Nous avons progressé à deux, sans séparer en deux parties distinctes (ex: d'un côté les calculs, de l'autre l'affichage). Cela nous a permis de mettre en commun rapidement des morceaux de programme,
+et de surmonter les problèmes plus efficacement.\\
+
+Nous avons commencé par concevoir l'affichage du plateau de jeu, puis la fusion classique, et à partir de cette base fonctionnelle, nous avons développé les modules supplémentaires.
+
+\section{}
 
 \section{Strucutures de données}
+\begin{tabular}{ccc}
+\begin{codeC}[hbox,enhanced,drop shadow]{Points}
+#include <stdio.h>
+
+int a;
+printf("helloworld a=%d", a);
+
+\end{codeC} 
+
+&
 
 \begin{codeC}[hbox,enhanced,drop shadow]{Points}
-typedef struct
-{
-	int x,
-	int y
-}POINT;
-\end{codeC}
+#include <stdio.h>
 
-text
+int a;
+printf("helloworld a=%d", a);
+
+\end{codeC} \\ 
+
+\end{tabular} 
+
+
+\section{Fonctions importantes}
+\subsection{Apparition d'une nouvelle brique}
+\subsection{Calcul du meilleur prochain coup}
+
+\section{Conclusion}
 \end{document}
