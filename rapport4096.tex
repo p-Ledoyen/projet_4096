@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{enumitem}
 \usepackage{textcomp}
 \usepackage{listings}
 \usepackage{tcolorbox}
@@ -42,44 +43,154 @@
 \section{Objectif du projet}
 \begin{itemize}
 \item Réaliser un jeu de type "2048"
-\item Fonder l'organisation du programme sur le modèle CVM
-\item Intégrer différentes options et modularités (difficulté, interface, mode de fusion...)
+\item Fonder l'organisation du programme sur le modèle MVC
+\item Intégrer des options et modularités : difficulté, interface, mode de fusion, aide
 \end{itemize}
 
-\section{Organisation}
+\section{Organisation générale}
 Nous avons progressé à deux, sans séparer en deux parties distinctes (ex: d'un côté les calculs, de l'autre l'affichage). Cela nous a permis de mettre en commun rapidement des morceaux de programme,
 et de surmonter les problèmes plus efficacement.\\
 
 Nous avons commencé par concevoir l'affichage du plateau de jeu, puis la fusion classique, et à partir de cette base fonctionnelle, nous avons développé les modules supplémentaires.
 
-\section{}
+\section{Découpage des fichiers}
+L'ensemble du code est réparti en différents fichiers .h et .c :
+\begin{itemize}
+\item \texttt{main.c} : contient le main uniquement.
+\item \texttt{4096.h} : contient les macro-constantes de taille (grille de jeu, fenêtre), la déclaration du plateau de jeu en variable globale, et les énumérations de boutons et états de paramètres (interface, fusion, difficulté). C'est le seul fichier commun à tous les autres.
+\item \texttt{calculs.[c|h]} : contiennent les fonctions logiques $\rightarrow$ correspondent à la partie "Modèle".
+\item \texttt{affichage.[c|h]} : contiennent les fonctions d'affichage $\rightarrow$ correspondent à la partie "Vue".
+\item \texttt{controle.[c|h]} : contiennent les fonctions de contrôle des boutons $\rightarrow$ correspondent à la partie "Contrôleur", en parallèle avec le \texttt{main}.
+\end{itemize}
 
-\section{Strucutures de données}
-\begin{tabular}{ccc}
-\begin{codeC}[hbox,enhanced,drop shadow]{Points}
-#include <stdio.h>
+\section{Explicitation des fonctions principales}
+Tout d'abord, il est important de noter que le tableau de jeu \texttt{plateau([T GRILLE][T GRILLE])} contient les \emph{puissances} de 2, et non pas les résultats des puissances de 2. Nous verrons dans la suite pourquoi.
 
-int a;
-printf("helloworld a=%d", a);
+\subsection{Affichage du plateau}
 
-\end{codeC} 
+Fonction \texttt{void affiche\_plateau(modeAffichage choix)} \\
 
-&
+Cette fonction parcourt toutes les cases du tableau et les dessine une par une.
+Le bloc d'instructions successives de dessin correspond à l'arrondissage des coins des cases.
+La couleur des cases est appelée dans un tableau constant de couleurs en trois dimensions : \texttt{static COULEUR palette[2][2][13]}.
+La $1^{ere}$ dimension permet de choisir le mode d'affichage (variable \texttt{choix}), la $2^{eme}$ oriente vers la couleur du fond de tuile (0), ou la couleur du texte à afficher sur la tuile (1), et la  $3^{eme}$ permet d'accéder à la couleur associée à la \emph{puissance} de 2 à afficher. \\
 
-\begin{codeC}[hbox,enhanced,drop shadow]{Points}
-#include <stdio.h>
+Un test sur la valeur permet de ne pas afficher "0" dans les cases vides.
 
-int a;
-printf("helloworld a=%d", a);
+\subsection{Fusion classique}
 
-\end{codeC} \\ 
+Illustration de l'opération pour un déplacement vers le haut, sur une colonne :
 
+\begin{center}
+\begin{tabular}{ccccc}
+\begin{tabular}{|c|}
+\hline 
+   \\ 
+\hline 
+\textcolor{blue}{4} \\ 
+\hline 
+\textcolor{blue}{4} \\ 
+\hline 
+\textcolor{orange}{2} \\ 
+\hline 
+  \\ 
+\hline 
+\textcolor{orange}{2}  \\ 
+\hline 
+  \\ 
+\hline 
+\textcolor{violet}{2} \\ 
+\hline 
 \end{tabular} 
+&$\rightarrow$&
+\begin{tabular}{|c|}
+\hline 
+  \\ 
+\hline 
+\textcolor{blue}{8} \\ 
+\hline 
+   \\ 
+\hline 
+\textcolor{orange}{4} \\ 
+\hline 
+  \\ 
+\hline 
+  \\ 
+\hline 
+  \\ 
+\hline 
+\textcolor{violet}{2} \\ 
+\hline 
+\end{tabular} 
+&$\rightarrow$&
+\begin{tabular}{|c|}
+\hline 
+\textcolor{blue}{8}  \\ 
+\hline 
+\textcolor{orange}{4} \\ 
+\hline 
+\textcolor{violet}{2} \\ 
+\hline 
+ \\ 
+\hline 
+  \\ 
+\hline 
+  \\ 
+\hline 
+  \\ 
+\hline 
+ \\ 
+\hline 
+\end{tabular} 
+\end{tabular}
+\end{center}
+
+A chaque déplacement (haut, bas, gauche ou droite) correspond une fonction adaptée pour les opérations sur les lignes et colonnes. Nous détaillerons ici le déplacement vers le haut, les 3 autres fonctions étant ainsi très similaires. 
+
+\subsubsection*{Procédure}
+\begin{enumerate}[label=\Alph* :]
+\item On parcourt les colonnes du tableau
+\item Pour chaque colonne
+\begin{enumerate}[label=\arabic* :]
+\item On parcourt ses lignes de haut en bas (ici)
+\item On cherche la prochaine tuile non nulle, qui devient alors tuile \emph{de référence} (d'indice \texttt{iSelec})
+\item A partir de cette tuile de référence, on cherche la prochaine tuile non nulle.
+\begin{itemize}
+\item Si elle est de même valeur que la tuile de référence, alors on double la valeur de la tuile de référence et on annule la tuile trouvée.
+\item Dans le cas contraire, on laisse en l'état, et la tuile suivante devient la nouvelle référence.
+\end{itemize}
+\item On reparcourt ensuite la colonne pour déplacer les résultats obtenus agglomérés en haut
+\item Une fois la dernière case posée (le curseur est sorti du tableau), on finit par remplir de zéros à partir du dernier emplacement de remplissage de la tuile 
+\end{enumerate}
+\end{enumerate}
 
 
-\section{Fonctions importantes}
-\subsection{Apparition d'une nouvelle brique}
-\subsection{Calcul du meilleur prochain coup}
+\subsection{Aide sur la fusion classique}
+L'aide à la fusion classique est assez rudimentaire : par l'intermédiaire d'une variable comptant le score, il est possible d'utiliser les fonctions de déplacement en fusion classique sans jamais modifier les valeurs du plateau. On introduit pour cela une variable booléenne de garde : \texttt{doitJouer}, dont la valeur est donnée en paramètre. Une partie du code n'est alors pas exécutée. \\
+En pouvant donc calculer le score d'un déplacement, on est capable de dire lequel rapporte le plus de points, et le proposée
+
+%\section{Partie test de l'intégration du code}
+%\begin{tabular}{ccc}
+%\begin{codeC}[hbox,enhanced,drop shadow]{Points}
+%#include <stdio.h>
+%
+%int a;
+%printf("helloworld a=%d", a);
+%
+%\end{codeC} 
+%
+%&
+%
+%\begin{codeC}[hbox,enhanced,drop shadow]{Points}
+%#include <stdio.h>
+%
+%int a;
+%printf("helloworld a=%d", a);
+%
+%\end{codeC} \\ 
+%
+%\end{tabular} 
+
 
 \section{Conclusion}
 \end{document}
