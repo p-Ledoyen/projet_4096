@@ -1,0 +1,18 @@
+Générér nouvelle tuile
+
+A l'instar de la fusion, la fonction qui génère une nouvelle tuile fait appel à d'autres fonctions spécifiques selon la difficulté choisie.
+
+	D'un côté, en mode facile, la fonction est elle-même assez simple. 
+A. Une variable stocke le nombre de cases nulles. 
+B. On génère un entier pseudo-aléatoire compris entre 0 et le nombre de cases nulles.
+C. Un compteur est incrémenté tant que cette le nombre de zéros diffère de ce dernier entier.
+D. Dès que les deux sont égaux, on génère aléatoirement un 2 ou un 4 sur le plateau
+
+	D'un autre côté, le mode difficile est senbiblement plus long à mettre en place.
+Nous avons fait notre choix après avoir constaté un phénomène: très rapidement après un début de partie, le maximum du plateau se retrouve entouré de plus petites valeurs. Il faut les manipuler pour arriver à créer une tuile de valeur maximale et la fuisionner avec le maximum préexistant. Ceci devient difficile lorsque ces valeurs plus faibles sont elles-mêmes entourées de tuiles. L'idée directrice de cet algortihme est la suivante: au lieu de chercher à générer une tuile au plus proche du maximum global, on génère une tuile près du maximum contigu à une case vide. Voici le détail:
+A. On initialise une variable max à 0
+B. Pour chaque case du plateau
+	1. Si elle est vide, on teste chaque case alentour.
+		a) Si l'une d'elles contient un nombre plus grand que max, on stocke les coordonnées actuelles en vue d'y placer une nouvelle tuile.
+C. Générer aléatoirement un 2 ou un 4 dans les dernières coordonées stockées.
+
