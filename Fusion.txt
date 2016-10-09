@@ -7,3 +7,8 @@ Premièrement, on se concentre sur la recherche de tuiles compatibles et le calc
 La seconde étape consiste à décaler les valeurs non-nulles le plus bas possible dans le plateau, puis à réduire à zéro les valeurs de toutes les tuiles restantes plus haut.
 	Il est à noter que cette fonction se charge de modifier, en sus des tuiles elles-mêmes, le score et le nombre de cases vides, le tout grâce à de l'adressage indirect, mais uniquement lorsque l'on doit réellement jouer. La distinciton se fait lors de l'appel à la fonction, par le booléen doitJouer. Si celui-ci vaut "faux", le plateau ne sera pas réellement modifié mais simulé en vue d'aider le joueur à faire le meilleur choix.
 Par ailleurs, chaque fonction de fusion renvoie un booléen. Idéalement, ceui-ci vaudrait "faux" par défaut et "vrai" si la moindre transformation altérait le plateau. Il servirait à vérifier si appliquer la fonction de fusion changerait la plateau de quelque manière que ce soit. A terme, cette condition serait utile dans d'autres fonctions, notamment le main pour générer une nouvelle tuile uniquement quand il le faut.
+
+	D'un autre côté, la fusion totale est une fonction bien plus concise. Il s'agit simplement de répeter une fusion classique autant de fois qu'il y a de cases.
+De même que pour la fonction main, savoir si le plateau serait modifié nous serait d'une grande utilité: il suffirait de répéter une fusion classique tant que cette même fusion classique modifie le plateau.
+
+	La difficulté a résidé dans le fait de trouver la condition suffisante pour considérer le plateau comme modifié. C'est pourquoi nous avons préféré une solution stable à une solution plus élégante.
